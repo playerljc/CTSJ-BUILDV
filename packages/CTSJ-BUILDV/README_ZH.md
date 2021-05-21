@@ -46,6 +46,16 @@ ctbuildv startapp --define skin=a,skin2=b
 编译npm package
 - -p,-srcpath <path>
 ##### 可以是相对路径和对路径，也可以不传
+
+- -c,-config <path>
+##### 用户对webpack进行重定义的配置文件(ctbuildv.config.js)路径，默认是宿主工程中的ctbuildv.config.js文件
+
+- -p,--packagename <name>
+##### umd的packagename
+
+- -d --define <path>
+##### 自定义的其他参数使用，分割
+
 ```javascript
 // 如果不传-p则编译脚本运行路径下的src目录
 ctbuildv buildpackage
@@ -97,7 +107,6 @@ module.exports = {
     
   },
 };
-
 ```
 
 ### webpackConfig的配置
@@ -108,6 +117,7 @@ module.exports = {
     MiniCssExtractPlugin,
     CopyWebpackPlugin,
     HtmlWebpackIncludeAssetsPlugin,
+    VueLoaderPlugin,
   },
   config: {
     /**
@@ -126,8 +136,7 @@ module.exports = {
       path: path.resolve(runtimePath, 'dist'),
       publicPath: '/',
     },
-    plugins: [
-      new webpack.optimize.ModuleConcatenationPlugin(),
+    plugins: (isProd() ? [new webpack.optimize.ModuleConcatenationPlugin()] : []).concat([
       new HtmlWebpackPlugin({
         title: '',
         filename: 'index.html',
@@ -141,44 +150,55 @@ module.exports = {
       new webpack.HashedModuleIdsPlugin(),
       new MiniCssExtractPlugin({
         filename: isDev() ? '[name].css' : '[name].[hash].css',
-        chunkFilename: isDev() ? '[id].css' : '[id].[hash].css',
+        chunkFilename: isDev() ? '[name].css' : '[name].[hash].css',
         ignoreOrder: false,
       }),
       new webpack.ProvidePlugin({
         _: 'lodash',
         $: 'jquery',
       }),
-      new ForkTsCheckerWebpackPlugin({
-        tsconfig: path.join(runtimePath, 'tsconfig.json'),
-        checkSyntacticErrors: true,
-      }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
-    ],
+      new VueLoaderPlugin(),
+    ]),
+
     optimization: isDev()
       ? {}
       : {
-          minimize: !isDev(), // true,
-          minimizer: isDev()
-            ? []
-            : [
-                new TerserPlugin({
-                  sourceMap: !isProd(),
-                }),
-                new OptimizeCSSAssetsPlugin({}),
-              ],
-          runtimeChunk: 'single',
-          splitChunks: {
-            cacheGroups: {
-              vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                name: 'vendors',
-                chunks: 'all',
-              },
+        minimize: !isDev(), // true,
+        minimizer: isDev()
+          ? []
+          : [
+            new TerserPlugin({
+              sourceMap: !isProd(),
+            }),
+            new OptimizeCSSAssetsPlugin({}),
+          ],
+        runtimeChunk: 'single',
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
             },
           },
         },
+      },
     module: {
       rules: [
+        {
+          test: /\.vue$/,
+          use: [
+            {
+              loader: 'vue-loader',
+              options: {
+                compilerOptions: {
+                  whitespace: 'condense',
+                },
+              },
+            },
+          ],
+        },
         {
           test: /\.m?jsx?$/,
           exclude: /(node_modules|bower_components)/,
@@ -209,21 +229,6 @@ module.exports = {
           ]),
         },
         {
-          test: /\.m?tsx?$/,
-          exclude: /(node_modules|bower_components)/,
-          include: [APP_PATH],
-          use: devLoaders.concat([
-            {
-              loader: 'ts-loader',
-              options: {
-                transpileOnly: true,
-                happyPackMode: true,
-                configFile: path.join(runtimePath, 'tsconfig.json'),
-              },
-            },
-          ]),
-        },
-        {
           test: /\.css$/,
           include: [
             APP_PATH,
@@ -237,13 +242,13 @@ module.exports = {
           ],
           use: [
             isDev()
-              ? 'style-loader'
+              ? 'vue-style-loader'
               : {
-                  loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  hmr: isDev(),
                 },
+              },
           ]
             .concat(devLoaders)
             .concat([
@@ -268,13 +273,13 @@ module.exports = {
           include: [APP_PATH, /normalize.less/],
           use: [
             isDev()
-              ? 'style-loader'
+              ? 'vue-style-loader'
               : {
-                  loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  hmr: isDev(),
                 },
+              },
           ]
             .concat(devLoaders)
             .concat([
@@ -341,8 +346,8 @@ module.exports = {
       ],
     },
     resolve: {
-      modules: ['node_modules'],
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.less', '.sass', '.json'], // 后缀名自动补全
+      modules: [/* path.join(runtimePath, 'node_modules'), */ 'node_modules'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.css', '.less', '.sass', '.json'], // 后缀名自动补全
     },
   },
 };
@@ -353,6 +358,7 @@ module.exports = {
  - MiniCssExtractPlugin,
  - CopyWebpackPlugin,
  - HtmlWebpackIncludeAssetsPlugin,
+ - VueLoaderPlugin,
  
 ### startapp，buildapp的缺省自定义参数
 ```javascript

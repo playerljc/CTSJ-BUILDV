@@ -46,6 +46,16 @@ ctbuildv startapp --define skin=a,skin2=b
 Compile npm package
 - -p,-srcpath <path>
 ##### It can be relative path and pair path, or not pass
+
+- -c,-config <path>
+##### The path of the configuration file (ctbuildv.config.js) that the user redefines webpack. The default is the ctbuildv.config.js file in the host project
+
+- -p,--packagename <name>
+##### packagename of umd
+
+- -d --define <path>
+##### Use other custom parameters, split
+
 ```javascript
 // If you don't pass -p, compile the src directory under the script running path
 ctbuildv buildpackage
@@ -92,7 +102,6 @@ module.exports = {
     
   },
 };
-
 ```
 
 ### WebpackConfig configuration
@@ -103,6 +112,7 @@ module.exports = {
     MiniCssExtractPlugin,
     CopyWebpackPlugin,
     HtmlWebpackIncludeAssetsPlugin,
+    VueLoaderPlugin,
   },
   config: {
     /**
@@ -121,8 +131,7 @@ module.exports = {
       path: path.resolve(runtimePath, 'dist'),
       publicPath: '/',
     },
-    plugins: [
-      new webpack.optimize.ModuleConcatenationPlugin(),
+    plugins: (isProd() ? [new webpack.optimize.ModuleConcatenationPlugin()] : []).concat([
       new HtmlWebpackPlugin({
         title: '',
         filename: 'index.html',
@@ -136,44 +145,55 @@ module.exports = {
       new webpack.HashedModuleIdsPlugin(),
       new MiniCssExtractPlugin({
         filename: isDev() ? '[name].css' : '[name].[hash].css',
-        chunkFilename: isDev() ? '[id].css' : '[id].[hash].css',
+        chunkFilename: isDev() ? '[name].css' : '[name].[hash].css',
         ignoreOrder: false,
       }),
       new webpack.ProvidePlugin({
         _: 'lodash',
         $: 'jquery',
       }),
-      new ForkTsCheckerWebpackPlugin({
-        tsconfig: path.join(runtimePath, 'tsconfig.json'),
-        checkSyntacticErrors: true,
-      }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
-    ],
+      new VueLoaderPlugin(),
+    ]),
+
     optimization: isDev()
       ? {}
       : {
-          minimize: !isDev(), // true,
-          minimizer: isDev()
-            ? []
-            : [
-                new TerserPlugin({
-                  sourceMap: !isProd(),
-                }),
-                new OptimizeCSSAssetsPlugin({}),
-              ],
-          runtimeChunk: 'single',
-          splitChunks: {
-            cacheGroups: {
-              vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                name: 'vendors',
-                chunks: 'all',
-              },
+        minimize: !isDev(), // true,
+        minimizer: isDev()
+          ? []
+          : [
+            new TerserPlugin({
+              sourceMap: !isProd(),
+            }),
+            new OptimizeCSSAssetsPlugin({}),
+          ],
+        runtimeChunk: 'single',
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
             },
           },
         },
+      },
     module: {
       rules: [
+        {
+          test: /\.vue$/,
+          use: [
+            {
+              loader: 'vue-loader',
+              options: {
+                compilerOptions: {
+                  whitespace: 'condense',
+                },
+              },
+            },
+          ],
+        },
         {
           test: /\.m?jsx?$/,
           exclude: /(node_modules|bower_components)/,
@@ -204,21 +224,6 @@ module.exports = {
           ]),
         },
         {
-          test: /\.m?tsx?$/,
-          exclude: /(node_modules|bower_components)/,
-          include: [APP_PATH],
-          use: devLoaders.concat([
-            {
-              loader: 'ts-loader',
-              options: {
-                transpileOnly: true,
-                happyPackMode: true,
-                configFile: path.join(runtimePath, 'tsconfig.json'),
-              },
-            },
-          ]),
-        },
-        {
           test: /\.css$/,
           include: [
             APP_PATH,
@@ -232,13 +237,13 @@ module.exports = {
           ],
           use: [
             isDev()
-              ? 'style-loader'
+              ? 'vue-style-loader'
               : {
-                  loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  hmr: isDev(),
                 },
+              },
           ]
             .concat(devLoaders)
             .concat([
@@ -263,13 +268,13 @@ module.exports = {
           include: [APP_PATH, /normalize.less/],
           use: [
             isDev()
-              ? 'style-loader'
+              ? 'vue-style-loader'
               : {
-                  loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  hmr: isDev(),
                 },
+              },
           ]
             .concat(devLoaders)
             .concat([
@@ -336,8 +341,8 @@ module.exports = {
       ],
     },
     resolve: {
-      modules: ['node_modules'],
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.less', '.sass', '.json'], // 后缀名自动补全
+      modules: [/* path.join(runtimePath, 'node_modules'), */ 'node_modules'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.css', '.less', '.sass', '.json'], // 后缀名自动补全
     },
   },
 };
@@ -348,6 +353,7 @@ module.exports = {
  - MiniCssExtractPlugin,
  - CopyWebpackPlugin,
  - HtmlWebpackIncludeAssetsPlugin,
+ - VueLoaderPlugin,
  
 ### startapp, the default custom parameters of buildapp
 ```javascript
