@@ -1,0 +1,50 @@
+{
+  "name": "@ctsj/buildv-lerna",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CTSJ-BUILDV的主工程",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean",
+    "link": "lerna link",
+    "changed": "lerna changed",
+    "list": "lerna list",
+    "publish": "leana publish",
+    "buildpackages": "lerna run buildpackage",
+    "generatorchangelog": "lerna run generatorchangelog",
+    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages/**/src && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages/**/src",
+    "lint:prettier": "check-prettier lint",
+    "lint:style": "stylelint --fix \"packages/**/src/**/*.less\" --syntax less",
+    "prettier": "prettier -c --write \"**/*\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.less": "stylelint --syntax less",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "fs-extra": "^9.0.1",
+    "lerna": "^3.22.1",
+    "@umijs/fabric": "^2.5.13",
+    "eslint": "^6.8.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.0",
+    "prettier": "^2.0.5",
+    "stylelint": "^13.8.0"
+  }
+}
