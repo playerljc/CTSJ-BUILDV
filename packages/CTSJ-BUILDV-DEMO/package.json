@@ -53,10 +53,10 @@
     ]
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.12",
+    "@ctsj/buildv-package": "^1.0.0",
     "ant-design-vue": "^1.7.5",
-    "@ctsj/buildv-package": "^1.0.0"
+    "core-js": "^3.6.5",
+    "vue": "^2.6.12"
   },
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
@@ -65,13 +65,13 @@
     "cross-env": "^7.0.2",
     "crypto-js": "^4.0.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^7.9.0",
     "fs-extra": "^9.0.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.0",
     "prettier": "^2.0.5",
     "stylelint": "^13.7.2",
     "tslint": "^6.1.3",
-    "typescript": "^3.8.3",
-    "eslint-plugin-vue": "^7.9.0"
+    "typescript": "^3.8.3"
   }
 }
