@@ -17,7 +17,7 @@ module.exports = function ({ webpackConfig, plugins, theme = {}, runtimePath }) 
         const match = context.resourcePath.match(/src(.*)/);
 
         if (match && match[1]) {
-          const path = match[1].replace('.vue', '');
+          const path = match[1].replace(/.vue|.less/, '');
 
           const arr = slash(path)
             .split('/')

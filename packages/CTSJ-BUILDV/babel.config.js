@@ -14,6 +14,7 @@ const plugins = [
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-proposal-function-bind',
   '@babel/plugin-proposal-optional-chaining',
+  "@vue/transform-vue-jsx",
   ['@babel/plugin-proposal-decorators', { legacy: true }],
   ['@babel/plugin-proposal-class-properties', { loose: true }],
   // "transform-vue-jsx",

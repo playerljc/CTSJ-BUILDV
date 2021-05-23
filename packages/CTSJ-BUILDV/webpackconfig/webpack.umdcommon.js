@@ -120,6 +120,7 @@ module.exports = {
                   '@babel/plugin-syntax-dynamic-import',
                   '@babel/plugin-proposal-function-bind',
                   '@babel/plugin-proposal-class-properties',
+                  "@vue/transform-vue-jsx",
                 ],
                 cacheDirectory: true,
               },
