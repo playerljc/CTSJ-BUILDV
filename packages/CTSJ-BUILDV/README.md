@@ -12,6 +12,7 @@ npm install @ctsj/buildv --save-dev
 - [startapp](#startapp)
 - [buildapp](#buildapp)
 - [buildpackage](#buildpackage)
+- [buildpackagets](#buildpackagets)
 - [buildumd](#buildumd)
 
 ### startapp
@@ -71,6 +72,35 @@ ctbuildv buildpackage -p c:/x/xxx
 ctbuildv buildpackage -p a/b/c
 ```
 
+### buildpackagets
+Compile npm packagets
+- -p,-srcpath <path>
+##### It can be relative path and pair path, or not pass
+
+- -c,-config <path>
+##### The path of the configuration file (ctbuildv.config.js) that the user redefines webpack. The default is the ctbuildv.config.js file in the host project
+
+- -p,--packagename <name>
+##### packagename of umd
+
+- -d --define <path>
+##### Use other custom parameters, split
+
+```javascript
+// If you don't pass -p, compile the src directory under the script running path
+ctbuildv buildpackagets
+```
+
+```javascript
+// If you pass an absolute path, compile this path
+ctbuildv buildpackagets -p c:/x/xxx
+```
+
+```javascript
+// If it is a relative path compile script running path + relative path
+ctbuildv buildpackagets -p a/b/c
+```
+
 ### buildumd
 Compile npm package into umd
 - -c,-config <path>
@@ -104,8 +134,50 @@ module.exports = {
 };
 ```
 
-### WebpackConfig configuration
+### webpackConfig的配置
 ```javascript
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WebpackBar = require('webpackbar');
+const TerserPlugin = require('terser-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
+const Util = require('../util');
+const { getPostCssConfigPath, isDev, isProd } = require('../util');
+
+const runtimePath = process.argv[8];
+
+const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
+
+const devLoaders = isDev() ? [] : ['thread-loader'];
+
+const babelConfig = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true },
+      },
+    ],
+    '@babel/preset-react',
+  ],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-function-bind',
+    '@babel/plugin-proposal-class-properties',
+    "@vue/transform-vue-jsx",
+  ],
+  cacheDirectory: isProd(),
+};
+
 module.exports = {
   plugins: {
     HtmlWebpackPlugin,
@@ -152,10 +224,13 @@ module.exports = {
         _: 'lodash',
         $: 'jquery',
       }),
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: path.join(runtimePath, 'tsconfig.json'),
+        checkSyntacticErrors: true,
+      }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
       new VueLoaderPlugin(),
     ]),
-
     optimization: isDev()
       ? {}
       : {
@@ -201,24 +276,25 @@ module.exports = {
           use: devLoaders.concat([
             {
               loader: 'babel-loader',
-              query: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      useBuiltIns: 'usage',
-                      corejs: { version: 3, proposals: true },
-                    },
-                  ],
-                  '@babel/preset-react',
-                ],
-                plugins: [
-                  '@babel/plugin-transform-runtime',
-                  '@babel/plugin-syntax-dynamic-import',
-                  '@babel/plugin-proposal-function-bind',
-                  '@babel/plugin-proposal-class-properties',
-                ],
-                cacheDirectory: isProd(),
+              query: babelConfig,
+            },
+          ]),
+        },
+        {
+          test: /\.m?tsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          include: [APP_PATH],
+          use: devLoaders.concat([
+            {
+              loader: 'babel-loader',
+              options: babelConfig,
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+                happyPackMode: true,
+                configFile: path.join(runtimePath, 'tsconfig.json'),
               },
             },
           ]),
@@ -346,6 +422,7 @@ module.exports = {
     },
   },
 };
+
 ````
 
 ### Default plugin list

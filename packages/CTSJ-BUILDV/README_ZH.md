@@ -12,6 +12,7 @@ npm install @ctsj/buildv --save-dev
 - [startapp(使用devServer启动工程)](#startapp)
 - [buildapp(打包工程)](#buildapp)
 - [buildpackage(编译npm包)](#buildpackage)
+- [buildpackagets(编译npm包)](#buildpackagets)
 - [buildumd(把npm包编译成umd)](#buildumd)
 
 ### startapp
@@ -71,6 +72,35 @@ ctbuildv buildpackage -p c:/x/xxx
 ctbuildv buildpackage -p a/b/c
 ```
 
+### buildpackagets
+编译npm packagets
+- -p,-srcpath <path>
+##### 可以是相对路径和对路径，也可以不传
+
+- -c,-config <path>
+##### 用户对webpack进行重定义的配置文件(ctbuildv.config.js)路径，默认是宿主工程中的ctbuildv.config.js文件
+
+- -p,--packagename <name>
+##### umd的packagename
+
+- -d --define <path>
+##### 自定义的其他参数使用，分割
+
+```javascript
+// 如果不传-p则编译脚本运行路径下的src目录
+ctbuildv buildpackagets
+```
+
+```javascript
+// 如果传递的是绝对路径则编译这个路径
+ctbuildv buildpackagets -p c:/x/xxx
+```
+
+```javascript
+// 如果是相对路径编译脚本运行路径+相对路径
+ctbuildv buildpackagets -p a/b/c
+```
+
 ### buildumd
 将npm package编译成umd
 - -c,-config <path>
@@ -111,6 +141,48 @@ module.exports = {
 
 ### webpackConfig的配置
 ```javascript
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WebpackBar = require('webpackbar');
+const TerserPlugin = require('terser-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
+const Util = require('../util');
+const { getPostCssConfigPath, isDev, isProd } = require('../util');
+
+const runtimePath = process.argv[8];
+
+const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
+
+const devLoaders = isDev() ? [] : ['thread-loader'];
+
+const babelConfig = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true },
+      },
+    ],
+    '@babel/preset-react',
+  ],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-function-bind',
+    '@babel/plugin-proposal-class-properties',
+    "@vue/transform-vue-jsx",
+  ],
+  cacheDirectory: isProd(),
+};
+
 module.exports = {
   plugins: {
     HtmlWebpackPlugin,
@@ -157,10 +229,13 @@ module.exports = {
         _: 'lodash',
         $: 'jquery',
       }),
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: path.join(runtimePath, 'tsconfig.json'),
+        checkSyntacticErrors: true,
+      }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
       new VueLoaderPlugin(),
     ]),
-
     optimization: isDev()
       ? {}
       : {
@@ -206,24 +281,25 @@ module.exports = {
           use: devLoaders.concat([
             {
               loader: 'babel-loader',
-              query: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      useBuiltIns: 'usage',
-                      corejs: { version: 3, proposals: true },
-                    },
-                  ],
-                  '@babel/preset-react',
-                ],
-                plugins: [
-                  '@babel/plugin-transform-runtime',
-                  '@babel/plugin-syntax-dynamic-import',
-                  '@babel/plugin-proposal-function-bind',
-                  '@babel/plugin-proposal-class-properties',
-                ],
-                cacheDirectory: isProd(),
+              query: babelConfig,
+            },
+          ]),
+        },
+        {
+          test: /\.m?tsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          include: [APP_PATH],
+          use: devLoaders.concat([
+            {
+              loader: 'babel-loader',
+              options: babelConfig,
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+                happyPackMode: true,
+                configFile: path.join(runtimePath, 'tsconfig.json'),
               },
             },
           ]),
@@ -351,6 +427,7 @@ module.exports = {
     },
   },
 };
+
 ````
 
 ### 缺省的插件列表
