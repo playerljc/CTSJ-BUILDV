@@ -6,6 +6,9 @@
     "ctbuildv": "./build.js",
     "ctcopy": "./copy.js"
   },
+  "scripts": {
+    "generatorchangelog": "bd changelog/CHANGELOG.html"
+  },
   "keywords": [
     "CTSJ-BUILDV",
     "CTSJ-BUILD",

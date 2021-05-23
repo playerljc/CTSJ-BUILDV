@@ -5,13 +5,28 @@
     <div class="Text2">222</div>
     <div id="container2">333</div>
     <my-component :data="data" />
+    <my-jsx :name="name" :sex="sex" :address="address" :birth-day="birthDay">
+      <div>我是defaultSlot</div>
+      <template v-slot:name1>
+        <div>我是slot=name1的slot</div>
+      </template>
+      <template v-slot:name2="slotProps">
+        <div>{{ slotProps.name}}</div>
+      </template>
+    </my-jsx>
   </div>
 </template>
 
 <script>
+import MyJSX from './MyCom1';
+
 export default {
   data() {
     return {
+      name:'张三',
+      sex: '男',
+      address: '和平区',
+      birthDay:'2021-10-09',
       data: [
         {
           key: '1',
@@ -37,6 +52,9 @@ export default {
       ],
     };
   },
+  components: {
+    'my-jsx':MyJSX,
+  }
 };
 </script>
 
