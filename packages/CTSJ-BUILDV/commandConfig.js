@@ -2,6 +2,7 @@ const startapp = require('./startapp');
 const buildapp = require('./buildapp');
 const buildumd = require('./buildumd');
 const buildpackage = require('./buildpackage');
+const buildpackagets = require('./buildpackagets');
 
 /**
  * 将用","分割的define参数转换成key/value的map
@@ -110,6 +111,39 @@ module.exports = {
       console.log('buildpackage');
       const { srcpath, config, packagename, define = '' } = entry;
       buildpackage.build({
+        srcpath,
+        config,
+        packagename,
+        define: getDefineMap(define),
+      });
+    },
+  },
+  // 编译package的ts版本
+  buildpackagets: {
+    alias: 'packagets',
+    description: 'build packagets',
+    options: [
+      {
+        command: '-p, --srcpath <path>',
+        description: 'build path',
+      },
+      {
+        command: '-c, --config <path>',
+        description: 'ctbuildv.config.js Configuration file path',
+      },
+      {
+        command: '-p, --packagename <name>',
+        description: 'package name',
+      },
+      {
+        command: '-d, --define <path>',
+        description: 'custom params split ","',
+      },
+    ],
+    action: (entry) => {
+      console.log('buildpackage');
+      const { srcpath, config, packagename, define = '' } = entry;
+      buildpackagets.build({
         srcpath,
         config,
         packagename,

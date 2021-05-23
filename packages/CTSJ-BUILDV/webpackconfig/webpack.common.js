@@ -7,6 +7,7 @@ const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plug
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
 const Util = require('../util');
@@ -17,6 +18,27 @@ const runtimePath = process.argv[8];
 const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
 
 const devLoaders = isDev() ? [] : ['thread-loader'];
+
+const babelConfig = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true },
+      },
+    ],
+    '@babel/preset-react',
+  ],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-function-bind',
+    '@babel/plugin-proposal-class-properties',
+    "@vue/transform-vue-jsx",
+  ],
+  cacheDirectory: isProd(),
+};
 
 module.exports = {
   plugins: {
@@ -63,6 +85,10 @@ module.exports = {
       new webpack.ProvidePlugin({
         _: 'lodash',
         $: 'jquery',
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: path.join(runtimePath, 'tsconfig.json'),
+        checkSyntacticErrors: true,
       }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
       new VueLoaderPlugin(),
@@ -112,25 +138,25 @@ module.exports = {
           use: devLoaders.concat([
             {
               loader: 'babel-loader',
-              query: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      useBuiltIns: 'usage',
-                      corejs: { version: 3, proposals: true },
-                    },
-                  ],
-                  '@babel/preset-react',
-                ],
-                plugins: [
-                  '@babel/plugin-transform-runtime',
-                  '@babel/plugin-syntax-dynamic-import',
-                  '@babel/plugin-proposal-function-bind',
-                  '@babel/plugin-proposal-class-properties',
-                  "@vue/transform-vue-jsx",
-                ],
-                cacheDirectory: isProd(),
+              query: babelConfig,
+            },
+          ]),
+        },
+        {
+          test: /\.m?tsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          include: [APP_PATH],
+          use: devLoaders.concat([
+            {
+              loader: 'babel-loader',
+              options: babelConfig,
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+                happyPackMode: true,
+                configFile: path.join(runtimePath, 'tsconfig.json'),
               },
             },
           ]),

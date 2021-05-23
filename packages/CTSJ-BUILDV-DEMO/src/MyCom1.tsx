@@ -1,3 +1,4 @@
+// @ts-ignore
 import styles from './MyCom1.less';
 
 export default {
@@ -22,14 +23,17 @@ export default {
   },
   computed: {
     displayCount() {
+      // @ts-ignore
       return this.count;
     }
   },
   mounted() {
+    // @ts-ignore
     console.log(this.$slots);
   },
   render(h) {
     return (
+      // @ts-ignore
       <div class={styles.Wrap}>
         <p>{this.name}</p>
         <p>{this.sex}</p>
