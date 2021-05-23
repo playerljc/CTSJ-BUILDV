@@ -14,11 +14,13 @@
         <div>{{ slotProps.name}}</div>
       </template>
     </my-jsx>
+    <MyCom2 />
   </div>
 </template>
 
 <script>
 import MyJSX from './MyCom1';
+import MyCom2 from "./MyCom2";
 
 export default {
   data() {
@@ -54,6 +56,7 @@ export default {
   },
   components: {
     'my-jsx':MyJSX,
+    'MyCom2':MyCom2,
   }
 };
 </script>

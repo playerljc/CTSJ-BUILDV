@@ -35,7 +35,7 @@ const babelConfig = {
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
     '@babel/plugin-proposal-class-properties',
-    "@vue/transform-vue-jsx",
+    '@vue/transform-vue-jsx',
   ],
   cacheDirectory: isProd(),
 };
@@ -157,6 +157,7 @@ module.exports = {
                 transpileOnly: true,
                 happyPackMode: true,
                 configFile: path.join(runtimePath, 'tsconfig.json'),
+                appendTsSuffixTo: ['\\.vue$'],
               },
             },
           ]),

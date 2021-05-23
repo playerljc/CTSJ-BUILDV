@@ -110,6 +110,7 @@ module.exports = {
             options: {
               transpileOnly: true,
               happyPackMode: true,
+              appendTsSuffixTo: ['\\.vue$'],
               configFile: path.join(runtimePath, 'tsconfig.json'),
             },
           },
