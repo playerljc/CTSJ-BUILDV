@@ -60,6 +60,7 @@
     "csv-loader": "^3.0.2",
     "ejs-loader": "^0.3.1",
     "file-loader": "^2.0.0",
+    "fork-ts-checker-webpack-plugin": "^4.0.5",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
@@ -76,8 +77,9 @@
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^4.2.2",
     "thread-loader": "^3.0.0",
-    "url-loader": "^2.1.0",
     "ts-loader": "^6.2.1",
+    "typescript": "^3.8.2",
+    "url-loader": "^2.1.0",
     "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.12",
     "webpack": "^4.20.2",
@@ -87,8 +89,6 @@
     "webpack-merge": "^4.1.4",
     "webpackbar": "^4.0.0",
     "xml-loader": "^1.2.1",
-    "yaml-loader": "^0.5.0",
-    "typescript": "^3.8.2",
-    "fork-ts-checker-webpack-plugin": "^4.0.5"
+    "yaml-loader": "^0.5.0"
   }
 }
