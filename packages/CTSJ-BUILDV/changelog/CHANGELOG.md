@@ -1,3 +1,11 @@
+# 2.0.2
+
+***
+
+2021-05-31
+
+* @vuejs/babel-plugin-transform-vue-jsx替换为支持Babel7.x的@vue/babel-preset-jsx
+
 # 2.0.1
 
 ***
