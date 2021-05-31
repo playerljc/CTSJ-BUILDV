@@ -1,6 +1,6 @@
 {
   "name": "@ctsj/buildv",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "一个基于webpack的vue打包工具",
   "bin": {
     "ctbuildv": "./build.js",
@@ -46,7 +46,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.1.5",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
-    "@vue/babel-plugin-transform-vue-jsx": "^1.2.1",
+    "@vue/babel-preset-jsx": "^1.2.4",
     "autoprefixer": "^9.8.5",
     "babel-loader": "^8.0.4",
     "cache-loader": "^4.1.0",
