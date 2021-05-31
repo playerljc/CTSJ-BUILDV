@@ -11,7 +11,7 @@
         <div>我是slot=name1的slot</div>
       </template>
       <template v-slot:name2="slotProps">
-        <div>{{ slotProps.name}}</div>
+        <div>{{ slotProps.name }}</div>
       </template>
     </my-jsx>
     <MyCom2 />
@@ -20,15 +20,15 @@
 
 <script>
 import MyJSX from './MyCom1';
-import MyCom2 from "./MyCom2";
+import MyCom2 from './MyCom2';
 
 export default {
   data() {
     return {
-      name:'张三',
+      name: '张三',
       sex: '男',
       address: '和平区',
-      birthDay:'2021-10-09',
+      birthDay: '2021-10-09',
       data: [
         {
           key: '1',
@@ -55,9 +55,9 @@ export default {
     };
   },
   components: {
-    'my-jsx':MyJSX,
-    'MyCom2':MyCom2,
-  }
+    'my-jsx': MyJSX,
+    MyCom2: MyCom2,
+  },
 };
 </script>
 

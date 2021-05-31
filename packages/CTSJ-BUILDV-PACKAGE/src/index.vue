@@ -20,10 +20,13 @@
         <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
       </span>
     </a-table>
+    <div>当前毫秒数：{{time}}</div>
   </div>
 </template>
 <script>
 import moment from 'moment';
+// import Vue from 'vue';
+// import AntVue from 'ant-design-vue';
 
 export default {
   name: 'my-component',

@@ -30,13 +30,14 @@ const babelConfig = {
       },
     ],
     '@babel/preset-react',
+    '@vue/babel-preset-jsx',
   ],
   plugins: [
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
     '@babel/plugin-proposal-class-properties',
-    "@vue/transform-vue-jsx",
+    // "@vue/transform-vue-jsx",
   ],
   cacheDirectory: true,
 };
