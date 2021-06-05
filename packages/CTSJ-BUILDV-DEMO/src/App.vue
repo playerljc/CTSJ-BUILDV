@@ -4,23 +4,29 @@
     <div :class="$style.Text1">111</div>
     <div class="Text2">222</div>
     <div id="container2">333</div>
+
     <my-component :data="data" />
+
     <my-jsx :name="name" :sex="sex" :address="address" :birth-day="birthDay">
       <div>我是defaultSlot</div>
       <template v-slot:name1>
         <div>我是slot=name1的slot</div>
       </template>
       <template v-slot:name2="slotProps">
-        <div>{{ slotProps.name }}</div>
+<!--        <div>{{ slotProps.name }}</div>-->
+        <My3 ref="my3Ref"/>
       </template>
     </my-jsx>
+
     <MyCom2 />
+
   </div>
 </template>
 
 <script>
 import MyJSX from './MyCom1';
 import MyCom2 from './MyCom2';
+import My3 from './My3';
 
 export default {
   data() {
@@ -54,9 +60,13 @@ export default {
       ],
     };
   },
+  mounted() {
+    console.log('1111111111111111111',this.$refs.my3Ref);
+  },
   components: {
     'my-jsx': MyJSX,
     MyCom2: MyCom2,
+    My3: My3,
   },
 };
 </script>

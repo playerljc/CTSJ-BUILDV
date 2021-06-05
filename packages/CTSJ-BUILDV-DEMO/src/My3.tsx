@@ -1,8 +1,9 @@
 export default {
+  props:['name'],
   render(h) {
     return (
       <div>
-        My3
+        {this.name}
       </div>
     )
   }
