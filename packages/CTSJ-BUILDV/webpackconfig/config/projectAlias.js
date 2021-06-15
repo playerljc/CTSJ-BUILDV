@@ -7,7 +7,13 @@ const path = require('path');
  * @param val
  */
 module.exports = function ({ webpackConfig, runtimePath, val }) {
-  webpackConfig.resolve.alias = {
-    [val || '@']: path.join(runtimePath, 'src'),
-  };
+  if (!webpackConfig.resolve.alias) {
+    webpackConfig.resolve.alias = {};
+  }
+
+  webpackConfig.resolve.alias[val || '@'] = path.join(runtimePath, 'src');
+
+  // webpackConfig.resolve.alias = {
+  //   [val || '@']: path.join(runtimePath, 'src'),
+  // };
 };

@@ -439,7 +439,7 @@ module.exports = {
  
 ### startapp，buildapp的缺省自定义参数
 ```javascript
-ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,curResolveModule
+ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,curResolveModule,runtimeCompiler=true
 ```
  - alias=@ src的别名
  - analysis=true 是否启动分析
@@ -447,3 +447,4 @@ ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,cur
  - cssModules 是否启动cssModules
  - static=assets 静态目录名称默认是asstes
  - curResolveModule 加入第三方包的引入是否从宿主工程的node_modules中进行查找
+ - runtimeCompiler 是否使用包含运行时编译器的 Vue 构建版本
