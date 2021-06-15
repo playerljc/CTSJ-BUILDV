@@ -1,6 +1,6 @@
 {
   "name": "@ctsj/buildv-package",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "private": true,
   "description": "package",
   "main": "lib/index.js",
@@ -28,9 +28,7 @@
     "link": "npm link @ctsj/buildv"
   },
   "husky": {
-    "hooks": {
-
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",

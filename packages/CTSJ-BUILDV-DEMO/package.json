@@ -1,6 +1,6 @@
 {
   "name": "demo",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "private": true,
   "description": "demo",
   "main": "src/index.js",
@@ -19,9 +19,7 @@
     "link": "npm link @ctsj/buildv"
   },
   "husky": {
-    "hooks": {
-
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -53,7 +51,7 @@
     ]
   },
   "dependencies": {
-    "@ctsj/buildv-package": "^2.0.2",
+    "@ctsj/buildv-package": "^2.0.3",
     "ant-design-vue": "^1.7.5",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "core-js": "^3.6.5",
