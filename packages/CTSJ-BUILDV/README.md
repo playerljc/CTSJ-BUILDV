@@ -357,7 +357,7 @@ module.exports = {
  
 ### startapp, the default custom parameters of buildapp
 ```javascript
-ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,curResolveModule
+ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,curResolveModule,runtimeCompiler=true
 ```
 - alias=@src alias
 - analysis whether to start analysis
@@ -365,3 +365,4 @@ ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,cur
 - cssModules whether to start cssModules
 - static=assets static directory name is asstes by default
 - curResolveModule whether the appointment to join the third-party package is searched from the node_modules of the host project
+- runtimeCompiler Whether to use the Vue build version that includes the runtime compiler
