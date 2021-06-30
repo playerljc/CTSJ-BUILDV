@@ -112,6 +112,7 @@ module.exports = {
       rules: [
         {
           test: /\.vue$/,
+          exclude: /(node_modules|bower_components)/,
           use: [
             {
               loader: 'vue-loader',
@@ -138,7 +139,7 @@ module.exports = {
         {
           test: /\.m?tsx?$/,
           exclude: /(node_modules|bower_components)/,
-          include: [APP_PATH],
+          // include: [APP_PATH],
           use: [
             'thread-loader',
             {
