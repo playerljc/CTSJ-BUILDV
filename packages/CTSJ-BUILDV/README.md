@@ -443,3 +443,4 @@ ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,cur
 - static=assets static directory name is asstes by default
 - curResolveModule whether the appointment to join the third-party package is searched from the node_modules of the host project
 - runtimeCompiler Whether to use the Vue build version that includes the runtime compiler
+- disableStrict Whether to disable use strict

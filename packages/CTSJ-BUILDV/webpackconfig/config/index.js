@@ -5,6 +5,7 @@ const projectStatic = require('./projectStatic');
 const projectBundleAnalyzer = require('./projectBundleAnalyzer');
 const projectCurResolveModule = require('./projectCurResolveModule');
 const projectRuntimeCompiler = require('./projectRuntimeCompiler');
+const projectDisableStrict = require('./projectDisableStrict');
 
 const map = {
   analysis: {
@@ -27,6 +28,9 @@ const map = {
   },
   runtimeCompiler: {
     handler: projectRuntimeCompiler,
+  },
+  disableStrict: {
+    handler: projectDisableStrict
   }
 };
 
