@@ -371,3 +371,4 @@ ctbuildv startapp --define alias=@,analysis,evnVars,cssModules,static=assets,cur
  - static=assets 静态目录名称默认是asstes
  - curResolveModule 加入第三方包的引入是否从宿主工程的node_modules中进行查找
  - runtimeCompiler 是否使用包含运行时编译器的 Vue 构建版本
+ - disableStrict 是否禁用use strict
