@@ -1,5 +1,7 @@
 export default {
+  // @ts-ignore
   render(h) {
+    // @ts-ignore
     const { $slots } = this;
 
     return (
@@ -7,7 +9,8 @@ export default {
         My2
         {$slots.self}
         {$slots.self1}
-        {this.$scopedSlots.self2({name:'111'})}
+        {/* @ts-ignore*/}
+        {this.$scopedSlots.self2({ name: '111' })}
       </div>
     );
   },

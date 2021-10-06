@@ -33,7 +33,9 @@ export default {
     // @ts-ignore
     console.log(this.$slots);
   },
+  // @ts-ignore
   render(h) {
+    // @ts-ignore
     // @ts-ignore
     return (
       // @ts-ignore
@@ -56,6 +58,7 @@ export default {
             name: this.name,
           })}
         </p>
+        {/*@ts-ignore*/}
         <MyCom2 />
       </div>
     );

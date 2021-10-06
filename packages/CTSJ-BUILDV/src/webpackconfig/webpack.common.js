@@ -27,6 +27,9 @@ const babelConfig = {
         useBuiltIns: 'usage',
         corejs: { version: 3, proposals: true },
       },
+      // {
+      //   useBuiltIns: 'entry',
+      // },
     ],
     '@babel/preset-react',
     '@vue/babel-preset-jsx',
@@ -35,9 +38,9 @@ const babelConfig = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
-    '@babel/plugin-proposal-optional-chaining',
-    ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    // '@babel/plugin-proposal-optional-chaining',
+    // ['@babel/plugin-proposal-decorators', { legacy: true }],
+    // ['@babel/plugin-proposal-class-properties', { loose: false }],
     // '@vue/transform-vue-jsx',
   ],
   cacheDirectory: isProd(),
@@ -134,7 +137,7 @@ module.exports = {
         {
           test: /\.m?jsx?$/,
           exclude: /(node_modules|bower_components)/,
-          // include: [APP_PATH],
+          include: [APP_PATH],
           use: devLoaders.concat([
             {
               loader: 'babel-loader',

@@ -1,10 +1,12 @@
 export default {
-  props:['name'],
+  props: ['name'],
+  // @ts-ignore*
   render(h) {
     return (
       <div>
+        {/*@ts-ignore**/}
         {this.name}
       </div>
-    )
-  }
-}
+    );
+  },
+};
