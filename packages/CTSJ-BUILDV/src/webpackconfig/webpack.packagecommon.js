@@ -1,16 +1,13 @@
 const path = require('path');
 const WebpackBar = require('webpackbar');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-
 const Util = require('../util');
+const commandArgs = require('../commandArgs');
 
-const runtimePath = process.argv[8];
-
-const packageName = process.argv[10];
-
-// const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
+const env = commandArgs.toCommandArgs(process.argv[6]);
+const runtimePath = env.get('runtimepath');
+const packageName = env.get('packagename');
 
 module.exports = {
   /**
@@ -30,13 +27,10 @@ module.exports = {
     library: `${packageName}`,
     libraryTarget: 'commonjs2',
     libraryExport: 'default',
+    clean: true,
   },
   mode: 'production',
-  plugins: [
-    new CleanWebpackPlugin(),
-    new WebpackBar({ reporters: ['profile'], profile: true }),
-    new VueLoaderPlugin(),
-  ],
+  plugins: [new WebpackBar({ reporters: ['profile'], profile: true }), new VueLoaderPlugin()],
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
@@ -64,16 +58,13 @@ module.exports = {
           'thread-loader',
           {
             loader: 'babel-loader',
-            query: {
+            options: {
               presets: [
                 [
                   '@babel/preset-env',
-                  // {
-                  //   useBuiltIns: 'usage',
-                  //   corejs: { version: 3, proposals: true },
-                  // },
                   {
-                    useBuiltIns: 'entry',
+                    useBuiltIns: 'usage',
+                    corejs: { version: 3, proposals: true },
                   },
                 ],
                 '@babel/preset-react',
@@ -83,8 +74,9 @@ module.exports = {
                 '@babel/plugin-transform-runtime',
                 '@babel/plugin-syntax-dynamic-import',
                 '@babel/plugin-proposal-function-bind',
-                '@babel/plugin-proposal-class-properties',
-                // "@vue/transform-vue-jsx",
+                '@babel/plugin-proposal-optional-chaining',
+                ['@babel/plugin-proposal-decorators', { legacy: true }],
+                ['@babel/plugin-proposal-class-properties', { loose: false }],
               ],
               cacheDirectory: true,
             },
@@ -93,25 +85,11 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
       {
         test: /\.(csv|tsv)$/,
@@ -123,7 +101,18 @@ module.exports = {
       },
       {
         test: /\.ejs/,
-        loader: ['ejs-loader?variable=data'],
+        use: [
+          {
+            loader: 'ejs-loader',
+            options: {
+              variable: 'data',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.md$/,
+        use: ['raw-loader'],
       },
     ],
   },

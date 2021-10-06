@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { spawn } = require('child_process');
 const path = require('path');
 const { getEnv, isWin32 } = require('./util');
@@ -8,7 +9,7 @@ const runtimePath = process.cwd();
 // 脚本所在的路径
 const codePath = __dirname;
 
-const commandPath = path.join(codePath, 'node_modules', '.bin', path.sep);
+const commandPath = path.join(codePath, '../', 'node_modules', '.bin', path.sep);
 
 // buildpackage生成的目录名称
 const generateDirName = 'lib';
@@ -51,7 +52,7 @@ function clearTask() {
     const command = isWin32() ? `rimraf.cmd` : `rimraf`;
 
     const rimrafProcess = spawn(command, [outputPath], {
-      cwd: codePath,
+      cwd: path.join(codePath, '../'),
       encoding: 'utf-8',
       env: getEnv(commandPath),
     });
@@ -82,22 +83,19 @@ function webpackTask() {
     const babelProcess = spawn(
       command,
       [
-        '--open',
         '--config',
-        path.join('webpackconfig', 'webpack.package.js'),
+        path.join(codePath, 'webpackconfig', 'webpack.package.js'),
         '--progress',
-        '--colors',
-        '--runtimepath',
-        path.join(runtimePath, path.sep),
-        '--packagename',
-        packageName,
-        '--customconfig',
-        configPath,
-        '--define',
-        define.join(' '),
+        '--env',
+        [
+          `runtimepath=${path.join(runtimePath, path.sep)}`,
+          `packagename=${packageName}`,
+          `customconfig=${configPath}`,
+          `define=${Buffer.from(JSON.stringify(define)).toString('base64')}`,
+        ].join(' '),
       ],
       {
-        cwd: codePath,
+        cwd: path.join(codePath, '../'),
         encoding: 'utf-8',
         env: getEnv(commandPath),
       },
@@ -137,7 +135,7 @@ function gulpTask() {
         path.join(compilePath, path.sep),
       ],
       {
-        cwd: codePath,
+        cwd: path.join(codePath, '../'),
         encoding: 'utf-8',
         env: getEnv(commandPath),
       },
@@ -190,7 +188,12 @@ module.exports = {
    * build
    * @param srcPath
    */
-  build({ srcpath = '',config: ctbuildvConfigPath = '', packagename = 'index', define: defineMap }) {
+  build({
+    srcpath = '',
+    config: ctbuildvConfigPath = '',
+    packagename = 'index',
+    define: defineMap,
+  }) {
     if (ctbuildvConfigPath) {
       if (path.isAbsolute(ctbuildvConfigPath)) {
         configPath = ctbuildvConfigPath;

@@ -58,21 +58,29 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.7.4",
-    "@umijs/fabric": "^2.5.13",
+    "@babel/runtime": "^7.15.4",
+    "@umijs/fabric": "^2.8.0",
     "babel-plugin-import": "^1.13.3",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^7.9.0",
-    "fs-extra": "^9.0.1",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.0",
-    "prettier": "^2.0.5",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^7.19.0",
+    "fs-extra": "^10.0.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.2.0",
+    "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
-    "stylelint": "^13.8.0"
+    "stylelint": "^13.13.1",
+    "eslint-plugin-comments": "^1.0.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-unicorn": "^36.0.0",
+    "core-js": "^3.18.2"
   },
   "dependencies": {
-    "ant-design-vue": "^1.7.5",
+    "ant-design-vue": "^1.7.8",
     "moment": "^2.29.1",
-    "vue": "^2.6.12"
+    "vue": "^2.6.14"
   }
 }

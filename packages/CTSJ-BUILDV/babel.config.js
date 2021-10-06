@@ -17,17 +17,7 @@ const plugins = [
   '@babel/plugin-proposal-optional-chaining',
   // "@vue/transform-vue-jsx",
   ['@babel/plugin-proposal-decorators', { legacy: true }],
-  ['@babel/plugin-proposal-class-properties', { loose: true }],
-  // "transform-vue-jsx",
-  // [
-  //   "import",
-  //   {
-  //     libraryName: "antd-mobile",
-  //     style: 'css'
-  //   }/*, {
-  //   libraryName: "antd",
-  //   style: true
-  // }*/],
+  ['@babel/plugin-proposal-class-properties', { loose: false }],
 ];
 
 module.exports = { presets, plugins };
