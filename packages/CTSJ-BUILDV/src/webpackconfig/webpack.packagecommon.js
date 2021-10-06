@@ -24,9 +24,11 @@ module.exports = {
     filename: `${packageName}.js`,
     path: path.resolve(runtimePath, 'lib'),
     publicPath: '/',
-    library: `${packageName}`,
-    libraryTarget: 'commonjs2',
-    libraryExport: 'default',
+    library: {
+      // name: `${packageName}`,
+      type: 'commonjs2',
+      export: 'default',
+    },
     clean: true,
   },
   mode: 'production',
@@ -62,9 +64,12 @@ module.exports = {
               presets: [
                 [
                   '@babel/preset-env',
+                  // {
+                  //   useBuiltIns: 'usage',
+                  //   corejs: { version: 3, proposals: true },
+                  // },
                   {
-                    useBuiltIns: 'usage',
-                    corejs: { version: 3, proposals: true },
+                    useBuiltIns: 'entry',
                   },
                 ],
                 '@babel/preset-react',

@@ -64,7 +64,7 @@ function webpackServiceTask() {
       [
         '--open',
         '--config',
-        path.join('webpackconfig', 'webpack.dev.js'),
+        path.join(codePath, 'webpackconfig', 'webpack.dev.js'),
         '--progress',
         '--env',
         [

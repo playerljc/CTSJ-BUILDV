@@ -40,9 +40,11 @@ module.exports = {
       // chunkFilename:`${packagename}.bundle.js`,
       path: path.resolve(runtimePath, 'umd'),
       publicPath: '/',
-      library: `${packagename}`,
-      libraryTarget: 'umd',
-      libraryExport: 'default',
+      library: {
+        name: `${packagename}`,
+        type: 'umd',
+        export: 'default',
+      },
       clean: true,
     },
     plugins: [
@@ -109,9 +111,12 @@ module.exports = {
                 presets: [
                   [
                     '@babel/preset-env',
+                    // {
+                    //   useBuiltIns: 'usage',
+                    //   corejs: { version: 3, proposals: true },
+                    // },
                     {
-                      useBuiltIns: 'usage',
-                      corejs: { version: 3, proposals: true },
+                      useBuiltIns: 'entry',
                     },
                   ],
                   '@babel/preset-react',

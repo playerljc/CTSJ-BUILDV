@@ -4,7 +4,5 @@ module.exports = {
   getTheme() {
     return modifyVars;
   },
-  getConfig({ webpackConfig, webpack, plugins }) {
-
-  },
+  getConfig({ webpackConfig, webpack, plugins }) {},
 };
