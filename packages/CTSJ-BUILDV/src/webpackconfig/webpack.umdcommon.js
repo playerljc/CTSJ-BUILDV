@@ -2,18 +2,20 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-
+const commandArgs = require('../commandArgs');
 const Util = require('../util');
 const { getPostCssConfigPath, isDev } = require('../util');
 
-const runtimePath = process.argv[8];
+const customArgs = commandArgs.toCommandArgs(process.argv[6]);
 
-const packagename = process.argv[10];
+const runtimePath = customArgs.get('runtimepath');
+
+const packagename = customArgs.get('packagename');
 
 const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
 
@@ -36,7 +38,9 @@ const babelConfig = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
-    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-optional-chaining',
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
     // "@vue/transform-vue-jsx",
   ],
   cacheDirectory: true,
@@ -81,22 +85,23 @@ module.exports = {
         },
         chunks: ['index'],
       }),
-      new webpack.HashedModuleIdsPlugin(),
+      // new webpack.HashedModuleIdsPlugin(),
       new MiniCssExtractPlugin({
         filename: `${packagename}.min.css`,
         // chunkFilename: `${packagename}.min.css`,
         ignoreOrder: false,
       }),
       new ForkTsCheckerWebpackPlugin({
-        tsconfig: path.join(runtimePath, 'tsconfig.json'),
-        checkSyntacticErrors: true,
+        typescript: {
+          configFile: path.join(runtimePath, 'tsconfig.json'),
+        },
       }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
       new VueLoaderPlugin(),
     ],
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
+      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
       // runtimeChunk: 'single',
       // splitChunks: {
       //   cacheGroups: {
@@ -132,7 +137,7 @@ module.exports = {
             'thread-loader',
             {
               loader: 'babel-loader',
-              query: babelConfig,
+              options: babelConfig,
             },
           ],
         },
@@ -162,7 +167,6 @@ module.exports = {
           include: [APP_PATH, /highlight.js/, /photoswipe.css/, /default-skin.css/],
           use: [
             isDev() ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-            'thread-loader',
             {
               loader: 'css-loader',
               options: {
@@ -172,8 +176,8 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
-                config: {
-                  path: getPostCssConfigPath(runtimePath),
+                postcssOptions: {
+                  config: getPostCssConfigPath(runtimePath),
                 },
               },
             },
@@ -184,7 +188,6 @@ module.exports = {
           include: [APP_PATH, /normalize.less/],
           use: [
             isDev() ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-            'thread-loader',
             {
               loader: 'css-loader',
               options: {
@@ -194,40 +197,28 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
-                config: {
-                  path: getPostCssConfigPath(runtimePath),
+                postcssOptions: {
+                  config: getPostCssConfigPath(runtimePath),
                 },
               },
             },
             {
               loader: 'less-loader',
-              query: {
-                javascriptEnabled: true,
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true,
+                },
               },
             },
           ],
         },
         {
           test: /\.(png|svg|jpg|gif|ico)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 1024,
-              },
-            },
-          ],
+          type: 'asset/resource',
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 1024,
-              },
-            },
-          ],
+          type: 'asset/resource',
         },
         {
           test: /\.(csv|tsv)$/,
@@ -239,7 +230,18 @@ module.exports = {
         },
         {
           test: /\.ejs/,
-          loader: ['ejs-loader?variable=data'],
+          use: [
+            {
+              loader: 'ejs-loader',
+              options: {
+                variable: 'data',
+              },
+            },
+          ],
+        },
+        {
+          test: /\.md$/,
+          use: 'raw-loader',
         },
       ],
     },

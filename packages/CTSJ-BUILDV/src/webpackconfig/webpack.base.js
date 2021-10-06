@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-
 const common = require('./webpack.common.js');
 const commandArgs = require('../commandArgs');
 const projectWebpackConfigMerge = require('./config/index.js');
@@ -11,11 +10,15 @@ module.exports = function ({ webpackConfig, runtimePath }) {
   // --runtimepath
   // --customconfig
 
+  const env = commandArgs.toCommandArgs(argsMap.get('--env').join(' '));
+
   // 附加的参数
-  const defineArgs = commandArgs.toCommandArgs(argsMap.get('--define')[0] || '');
+  const defineArgs = commandArgs.toCommandArgs(
+    JSON.parse(Buffer.from(env.get('define'), 'base64').toString() || '[]').join(' '),
+  );
 
   // 用户自定义配置文件的路径
-  const customWebpackConfigPath = argsMap.get('--customconfig')[0];
+  const customWebpackConfigPath = env.get('customconfig');
 
   let customWebpackConfig;
 

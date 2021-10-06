@@ -3,17 +3,17 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const commandArgs = require('../commandArgs');
 const { VueLoaderPlugin } = require('vue-loader');
-
 const Util = require('../util');
 const { getPostCssConfigPath, isDev, isProd } = require('../util');
 
-const runtimePath = process.argv[8];
+const argIndex = isDev() ? 8 : 6;
+const runtimePath = commandArgs.toCommandArgs(process.argv[argIndex]).get('runtimepath');
 
 const APP_PATH = path.resolve(runtimePath, 'src'); // 项目src目录
 
@@ -35,7 +35,9 @@ const babelConfig = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
-    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-optional-chaining',
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
     // '@vue/transform-vue-jsx',
   ],
   cacheDirectory: isProd(),
@@ -46,7 +48,6 @@ module.exports = {
     HtmlWebpackPlugin,
     MiniCssExtractPlugin,
     CopyWebpackPlugin,
-    HtmlWebpackIncludeAssetsPlugin,
     VueLoaderPlugin,
   },
   config: {
@@ -61,10 +62,11 @@ module.exports = {
      * 出口
      */
     output: {
-      filename: isProd() ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
-      chunkFilename: isProd() ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
+      filename: isProd() ? '[name].[chunkhash].bundle.js' : '[name].[contenthash].bundle.js',
+      chunkFilename: isProd() ? '[name].[chunkhash].bundle.js' : '[name].[contenthash].bundle.js',
       path: path.resolve(runtimePath, 'dist'),
       publicPath: '/',
+      clean: true,
     },
     plugins: (isProd() ? [new webpack.optimize.ModuleConcatenationPlugin()] : []).concat([
       new HtmlWebpackPlugin({
@@ -77,10 +79,10 @@ module.exports = {
         },
         chunks: ['index'],
       }),
-      new webpack.HashedModuleIdsPlugin(),
+      // new webpack.HashedModuleIdsPlugin(),
       new MiniCssExtractPlugin({
-        filename: isDev() ? '[name].css' : '[name].[hash].css',
-        chunkFilename: isDev() ? '[name].css' : '[name].[hash].css',
+        filename: isDev() ? '[name].css' : '[name].[contenthash].css',
+        chunkFilename: isDev() ? '[name].css' : '[name].[contenthash].css',
         ignoreOrder: false,
       }),
       new webpack.ProvidePlugin({
@@ -88,24 +90,20 @@ module.exports = {
         $: 'jquery',
       }),
       new ForkTsCheckerWebpackPlugin({
-        tsconfig: path.join(runtimePath, 'tsconfig.json'),
-        checkSyntacticErrors: true,
+        typescript: {
+          configFile: path.join(runtimePath, 'tsconfig.json'),
+        },
       }),
       new WebpackBar({ reporters: ['profile'], profile: true }),
       new VueLoaderPlugin(),
     ]),
     optimization: isDev()
-      ? {}
+      ? {
+          splitChunks: false,
+        }
       : {
           minimize: !isDev(), // true,
-          minimizer: isDev()
-            ? []
-            : [
-                new TerserPlugin({
-                  sourceMap: !isProd(),
-                }),
-                new OptimizeCSSAssetsPlugin({}),
-              ],
+          minimizer: isDev() ? [] : [new TerserPlugin(), new CssMinimizerPlugin()],
           runtimeChunk: 'single',
           splitChunks: {
             cacheGroups: {
@@ -140,7 +138,7 @@ module.exports = {
           use: devLoaders.concat([
             {
               loader: 'babel-loader',
-              query: babelConfig,
+              options: babelConfig,
             },
           ]),
         },
@@ -181,28 +179,22 @@ module.exports = {
               ? 'vue-style-loader'
               : {
                   loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
                 },
-          ]
-            .concat(devLoaders)
-            .concat([
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  config: getPostCssConfigPath(runtimePath),
                 },
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: getPostCssConfigPath(runtimePath),
-                  },
-                },
-              },
-            ]),
+            },
+          ],
         },
         {
           test: /\.less$/,
@@ -212,56 +204,38 @@ module.exports = {
               ? 'vue-style-loader'
               : {
                   loader: MiniCssExtractPlugin.loader,
-                  options: {
-                    hmr: isDev(),
-                  },
                 },
-          ]
-            .concat(devLoaders)
-            .concat([
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  config: getPostCssConfigPath(runtimePath),
                 },
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: getPostCssConfigPath(runtimePath),
-                  },
-                },
-              },
-              {
-                loader: 'less-loader',
-                query: {
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                lessOptions: {
                   javascriptEnabled: true,
                 },
               },
-            ]),
+            },
+          ],
         },
         {
           test: /\.(png|svg|jpg|gif|ico)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 1024,
-              },
-            },
-          ],
+          type: 'asset/resource',
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 1024,
-              },
-            },
-          ],
+          type: 'asset/resource',
         },
         {
           test: /\.(csv|tsv)$/,
@@ -273,11 +247,22 @@ module.exports = {
         },
         {
           test: /\.ejs/,
-          loader: ['ejs-loader?variable=data'],
+          use: [
+            {
+              loader: 'ejs-loader',
+              options: {
+                variable: 'data',
+              },
+            },
+          ],
         },
         {
           test: /\.ya?ml$/,
           use: ['json-loader', 'yaml-loader'],
+        },
+        {
+          test: /\.md$/,
+          use: ['raw-loader'],
         },
       ],
     },

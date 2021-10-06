@@ -1,17 +1,16 @@
-const merge = require('webpack-merge');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge');
 const webpackBase = require('./webpack.base');
-const common = require('./webpack.common.js');
-
-const runtimePath = process.argv[8];
+const common = require('./webpack.umdcommon.js');
+const commandArgs = require('../commandArgs');
+const runtimePath = commandArgs.toCommandArgs(process.argv[6]).get('runtimepath');
 
 // --runtimepath
 // --customconfig
 
+// webpack的配置
 let webpackConfig = merge(common.config, {
   mode: 'production',
   devtool: 'cheap-module-source-map',
-  plugins: [new CleanWebpackPlugin()],
 });
 
 webpackConfig = webpackBase({

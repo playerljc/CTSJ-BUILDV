@@ -1,15 +1,14 @@
 const path = require('path');
 const WebpackBar = require('webpackbar');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-
+const commandArgs = require('../commandArgs');
 const Util = require('../util');
 
-const runtimePath = process.argv[8];
-
-const packageName = process.argv[10];
+const env = commandArgs.toCommandArgs(process.argv[6]);
+const runtimePath = env.get('runtimepath');
+const packageName = env.get('packagename');
 
 const babelConfig = {
   presets: [
@@ -30,8 +29,9 @@ const babelConfig = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',
-    '@babel/plugin-proposal-class-properties',
-    // '@vue/transform-vue-jsx',
+    '@babel/plugin-proposal-optional-chaining',
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
   ],
   cacheDirectory: true,
 };
@@ -53,16 +53,17 @@ module.exports = {
     filename: `${packageName}.js`,
     path: path.resolve(runtimePath, 'lib'),
     publicPath: '/',
-    library: `${packageName}`,
+    // library: `${packageName}`,
     libraryTarget: 'commonjs2',
     libraryExport: 'default',
+    clean: true,
   },
   mode: 'production',
   plugins: [
-    new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
-      tsconfig: path.join(runtimePath, 'tsconfig.json'),
-      checkSyntacticErrors: true,
+      typescript: {
+        configFile: path.join(runtimePath, 'tsconfig.json'),
+      },
     }),
     new WebpackBar({ reporters: ['profile'], profile: true }),
     new VueLoaderPlugin(),
@@ -94,7 +95,7 @@ module.exports = {
           'thread-loader',
           {
             loader: 'babel-loader',
-            query: babelConfig,
+            options: babelConfig,
           },
         ],
       },
@@ -120,25 +121,11 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
       {
         test: /\.(csv|tsv)$/,
@@ -150,7 +137,18 @@ module.exports = {
       },
       {
         test: /\.ejs/,
-        loader: ['ejs-loader?variable=data'],
+        use: [
+          {
+            loader: 'ejs-loader',
+            options: {
+              variable: 'data',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.md$/,
+        use: ['raw-loader'],
       },
     ],
   },
