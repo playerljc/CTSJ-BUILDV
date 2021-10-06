@@ -46,7 +46,7 @@ export default {
         <p>{this.address}</p>
         <p
           onClick={() => {
-            // @ts-ignore*
+            // @ts-ignore
             this.count += 1;
           }}
         >
