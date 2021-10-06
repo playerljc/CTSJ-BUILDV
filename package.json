@@ -7,6 +7,7 @@
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean",
     "link": "lerna link",
+    "update": "lerna run update",
     "changed": "lerna changed",
     "list": "lerna list",
     "publish": "lerna publish",
@@ -22,8 +23,7 @@
     "prettier": "prettier -c --write \"**/*\""
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -37,13 +37,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "fs-extra": "^9.0.1",
-    "lerna": "^3.22.1",
-    "@umijs/fabric": "^2.5.13",
-    "eslint": "^6.8.0",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.0",
-    "prettier": "^2.0.5",
-    "stylelint": "^13.8.0"
+    "@umijs/fabric": "^2.8.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-comments": "^1.0.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-unicorn": "^36.0.0",
+    "fs-extra": "^10.0.0",
+    "husky": "^7.0.2",
+    "lerna": "^4.0.0",
+    "lint-staged": "^11.2.0",
+    "prettier": "^2.4.1",
+    "stylelint": "^13.13.1"
   }
 }
