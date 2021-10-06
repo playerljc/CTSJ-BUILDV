@@ -30,8 +30,8 @@ const map = {
     handler: projectRuntimeCompiler,
   },
   disableStrict: {
-    handler: projectDisableStrict
-  }
+    handler: projectDisableStrict,
+  },
 };
 
 module.exports = function ({ defineArgs, ...others }) {
