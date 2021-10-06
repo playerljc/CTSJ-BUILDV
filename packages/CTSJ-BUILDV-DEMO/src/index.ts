@@ -3,6 +3,8 @@ import Antd from 'ant-design-vue';
 
 import Package from '@ctsj/buildv-package';
 
+console.log('Package', Package);
+
 import App from './App.vue';
 import My1 from './My1';
 

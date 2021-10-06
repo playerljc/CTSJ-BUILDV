@@ -1,6 +1,5 @@
 export default {
-  // @ts-ignore
-  render(h) {
+  render() {
     // @ts-ignore
     const { $slots } = this;
 

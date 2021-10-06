@@ -33,28 +33,36 @@ export default {
     // @ts-ignore
     console.log(this.$slots);
   },
-  // @ts-ignore
-  render(h) {
-    // @ts-ignore
-    // @ts-ignore
+  render() {
     return (
-      // @ts-ignore
       <div class={styles.Wrap}>
+        {/*@ts-ignore*/}
         <p>{this.name}</p>
+        {/*@ts-ignore*/}
         <p>{this.sex}</p>
+        {/*@ts-ignore*/}
         <p>{this.birthDay}</p>
+        {/*@ts-ignore*/}
         <p>{this.address}</p>
         <p
           onClick={() => {
+            // @ts-ignore*
             this.count += 1;
           }}
         >
-          {this.displayCount}
+          {
+            // @ts-ignore*
+            this.displayCount
+          }
         </p>
+        {/*@ts-ignore*/}
         <p>{this.$slots.default}</p>
+        {/*@ts-ignore*/}
         <p>{this.$slots.name1}</p>
         <p>
+          {/*@ts-ignore*/}
           {this.$scopedSlots.name2({
+            // @ts-ignore*
             name: this.name,
           })}
         </p>

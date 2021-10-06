@@ -1,10 +1,9 @@
 // .vue
 // @ts-ignore
-import Com from './index';
+// import Com from './index.vue';
 
 // jsx
-// @ts-ignore
-// import Com from './component';
+import Com from './component';
 
 // @ts-ignore
 Com.install = function (Vue) {

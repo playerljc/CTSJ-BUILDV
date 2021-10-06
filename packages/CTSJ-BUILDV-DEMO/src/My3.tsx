@@ -1,7 +1,6 @@
 export default {
   props: ['name'],
-  // @ts-ignore*
-  render(h) {
+  render() {
     return (
       <div>
         {/*@ts-ignore**/}
