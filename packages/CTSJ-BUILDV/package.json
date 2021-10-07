@@ -41,8 +41,8 @@
     "@babel/plugin-proposal-function-bind": "^7.14.5",
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/runtime": "^7.15.4",
@@ -73,6 +73,7 @@
     "mini-css-extract-plugin": "^2.3.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-loader": "^6.1.1",
+    "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.0",
@@ -88,7 +89,6 @@
     "webpack-merge": "^5.8.0",
     "webpackbar": "^5.0.0-3",
     "xml-loader": "^1.2.1",
-    "yaml-loader": "^0.6.0",
-    "raw-loader": "^4.0.2"
+    "yaml-loader": "^0.6.0"
   }
 }
