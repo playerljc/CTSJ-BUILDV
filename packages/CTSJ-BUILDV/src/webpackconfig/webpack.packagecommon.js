@@ -2,6 +2,7 @@ const path = require('path');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+
 const Util = require('../util');
 const commandArgs = require('../commandArgs');
 
@@ -70,6 +71,7 @@ module.exports = {
                   // },
                   {
                     useBuiltIns: 'entry',
+                    corejs: { version: 3, proposals: true },
                   },
                 ],
                 '@babel/preset-react',

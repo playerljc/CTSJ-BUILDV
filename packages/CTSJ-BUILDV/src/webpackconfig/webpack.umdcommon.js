@@ -6,6 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+
 const Util = require('../util');
 const commandArgs = require('../commandArgs');
 const { getPostCssConfigPath, isDev } = require('../util');
@@ -117,6 +118,7 @@ module.exports = {
                     // },
                     {
                       useBuiltIns: 'entry',
+                      corejs: { version: 3, proposals: true },
                     },
                   ],
                   '@babel/preset-react',

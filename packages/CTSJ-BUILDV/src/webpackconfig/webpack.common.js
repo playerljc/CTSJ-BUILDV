@@ -7,6 +7,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const TerserPlugin = require('terser-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+
 const commandArgs = require('../commandArgs');
 const Util = require('../util');
 const { getPostCssConfigPath, isDev, isProd } = require('../util');
@@ -56,8 +57,8 @@ module.exports = {
       }),
       // new webpack.HashedModuleIdsPlugin(),
       new MiniCssExtractPlugin({
-        filename: isDev() ? '[name].css' : '[name].[hash].css',
-        chunkFilename: isDev() ? '[name].css' : '[name].[hash].css',
+        filename: isDev() ? '[name].css' : '[name].[contenthash].css',
+        chunkFilename: isDev() ? '[name].css' : '[name].[contenthash].css',
         ignoreOrder: false,
       }),
       new webpack.ProvidePlugin({
