@@ -12,8 +12,4 @@ module.exports = function ({ webpackConfig, runtimePath, val }) {
   }
 
   webpackConfig.resolve.alias[val || '@'] = path.join(runtimePath, 'src');
-
-  // webpackConfig.resolve.alias = {
-  //   [val || '@']: path.join(runtimePath, 'src'),
-  // };
 };

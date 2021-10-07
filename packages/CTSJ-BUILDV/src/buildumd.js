@@ -2,6 +2,7 @@
 
 const path = require('path');
 const { spawn } = require('child_process');
+
 const { getEnv, isWin32 } = require('./util');
 
 // 运行命令的路径
