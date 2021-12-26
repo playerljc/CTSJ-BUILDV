@@ -133,7 +133,6 @@ module.exports = {
           test: /\.css$/,
           include: [APP_PATH, /highlight.js/, /photoswipe.css/, /default-skin.css/],
           use: [
-            'thread-loader',
             isDev() ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
@@ -155,7 +154,6 @@ module.exports = {
           test: /\.less$/,
           include: [APP_PATH, /normalize.less/],
           use: [
-            'thread-loader',
             isDev() ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
