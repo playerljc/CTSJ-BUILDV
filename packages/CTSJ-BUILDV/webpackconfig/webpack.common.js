@@ -179,7 +179,6 @@ module.exports = {
             /normalize.css/,
           ],
           use: [
-            ...devLoaders,
             isDev()
               ? 'vue-style-loader'
               : {
@@ -208,7 +207,6 @@ module.exports = {
           test: /\.less$/,
           include: [APP_PATH, /normalize.less/],
           use: [
-            ...devLoaders,
             isDev()
               ? 'vue-style-loader'
               : {
