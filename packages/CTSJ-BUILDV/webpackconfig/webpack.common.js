@@ -137,18 +137,20 @@ module.exports = {
           test: /\.m?jsx?$/,
           exclude: /(node_modules|bower_components)/,
           // include: [APP_PATH],
-          use: devLoaders.concat([
+          use: [
+            ...devLoaders,
             {
               loader: 'babel-loader',
               query: babelConfig,
             },
-          ]),
+          ],
         },
         {
           test: /\.m?tsx?$/,
           exclude: /(node_modules|bower_components)/,
           // include: [APP_PATH],
-          use: devLoaders.concat([
+          use: [
+            ...devLoaders,
             {
               loader: 'babel-loader',
               options: babelConfig,
@@ -162,7 +164,7 @@ module.exports = {
                 appendTsSuffixTo: ['\\.vue$'],
               },
             },
-          ]),
+          ],
         },
         {
           test: /\.css$/,
@@ -177,6 +179,7 @@ module.exports = {
             /normalize.css/,
           ],
           use: [
+            ...devLoaders,
             isDev()
               ? 'vue-style-loader'
               : {
@@ -185,29 +188,27 @@ module.exports = {
                     hmr: isDev(),
                   },
                 },
-          ]
-            .concat(devLoaders)
-            .concat([
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: getPostCssConfigPath(runtimePath),
                 },
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: getPostCssConfigPath(runtimePath),
-                  },
-                },
-              },
-            ]),
+            },
+          ],
         },
         {
           test: /\.less$/,
           include: [APP_PATH, /normalize.less/],
           use: [
+            ...devLoaders,
             isDev()
               ? 'vue-style-loader'
               : {
@@ -216,30 +217,27 @@ module.exports = {
                     hmr: isDev(),
                   },
                 },
-          ]
-            .concat(devLoaders)
-            .concat([
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: getPostCssConfigPath(runtimePath),
                 },
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: getPostCssConfigPath(runtimePath),
-                  },
-                },
+            },
+            {
+              loader: 'less-loader',
+              query: {
+                javascriptEnabled: true,
               },
-              {
-                loader: 'less-loader',
-                query: {
-                  javascriptEnabled: true,
-                },
-              },
-            ]),
+            },
+          ],
         },
         {
           test: /\.(png|svg|jpg|gif|ico)$/,
