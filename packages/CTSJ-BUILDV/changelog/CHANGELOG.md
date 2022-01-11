@@ -2,6 +2,14 @@
 
 ***
 
+2022-01-12
+
+* buildpackage分成两个命令buildpackage和buildpackagewp
+
+# 3.0.1
+
+***
+
 2021-12-26
 
 * getEvn对path和Path进行降序排列从最近的目录开始寻找命令
