@@ -1,6 +1,7 @@
 const startapp = require('./startapp');
 const buildapp = require('./buildapp');
 const buildumd = require('./buildumd');
+const buildpackagewp = require('./buildpackagewp');
 const buildpackage = require('./buildpackage');
 
 /**
@@ -85,9 +86,9 @@ module.exports = {
       });
     },
   },
-  buildpackage: {
-    alias: 'package',
-    description: 'build package',
+  buildpackagewp: {
+    alias: 'packagewp',
+    description: 'build package by webpack',
     options: [
       {
         command: '-p, --srcpath <path>',
@@ -109,7 +110,7 @@ module.exports = {
     action: (entry) => {
       console.log('buildpackage');
       const { srcpath, config, packagename, define = '' } = entry;
-      buildpackage.build({
+      buildpackagewp.build({
         srcpath,
         config,
         packagename,
@@ -117,4 +118,26 @@ module.exports = {
       });
     },
   },
+  buildpackage: {
+    alias: 'package',
+    description: 'build package by babel',
+    options: [
+      {
+        command: '-c --config <path>',
+        description: 'ctbuildv.package.config.js Configuration file path',
+      },
+      {
+        command: '-p, --srcpath <path>',
+        description: 'build path',
+      },
+      {
+        command: '-d --output <path>',
+        description: 'output path',
+      },
+    ],
+    action: (entry) => {
+      console.log('buildpackage');
+      buildpackage.build(entry);
+    },
+  }
 };

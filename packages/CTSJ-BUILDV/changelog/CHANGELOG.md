@@ -1,3 +1,11 @@
+# 1.0.6
+
+***
+
+2022-01-11
+
+* buildpackage分成两个命令buildpackage和buildpackagewp
+
 # 1.0.5
 
 ***

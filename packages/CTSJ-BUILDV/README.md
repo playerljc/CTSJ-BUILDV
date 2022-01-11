@@ -12,6 +12,7 @@ npm install @ctsj/buildv --save-dev
 - [startapp](#startapp)
 - [buildapp](#buildapp)
 - [buildpackage](#buildpackage)
+- [buildpackagewp](#buildpackagewp)
 - [buildumd](#buildumd)
 
 ### startapp
@@ -42,12 +43,12 @@ ctbuildv startapp -c /opt/mydir/;
 ctbuildv startapp --define skin=a,skin2=b
 ````
 
-### buildpackage
+### buildpackagewp
 Compile npm package
-- -p,-srcpath <path>
+- -p,--srcpath <path>
 ##### It can be relative path and pair path, or not pass
 
-- -c,-config <path>
+- -c,--config <path>
 ##### The path of the configuration file (ctbuildv.config.js) that the user redefines webpack. The default is the ctbuildv.config.js file in the host project
 
 - -p,--packagename <name>
@@ -55,6 +56,21 @@ Compile npm package
 
 - -d --define <path>
 ##### Use other custom parameters, split
+
+
+### buildpackage
+Compile npm package
+- -c,--config <path>
+##### ctbuildv.package.config.js Configuration file path
+
+- -p,--srcpath <path>
+##### build path
+
+- -p,--packagename <name>
+##### packagename of umd
+
+- -d --output <path>
+##### output path
 
 ```javascript
 // If you don't pass -p, compile the src directory under the script running path

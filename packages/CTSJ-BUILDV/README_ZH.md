@@ -12,6 +12,7 @@ npm install @ctsj/buildv --save-dev
 - [startapp(使用devServer启动工程)](#startapp)
 - [buildapp(打包工程)](#buildapp)
 - [buildpackage(编译npm包)](#buildpackage)
+- [buildpackagewp(编译npm包)](#buildpackagewp)
 - [buildumd(把npm包编译成umd)](#buildumd)
 
 ### startapp
@@ -42,12 +43,12 @@ ctbuildv startapp -c /opt/mydir/;
 ctbuildv startapp --define skin=a,skin2=b
 ````
 
-### buildpackage
+### buildpackagewp
 编译npm package
-- -p,-srcpath <path>
+- -p,--srcpath <path>
 ##### 可以是相对路径和对路径，也可以不传
 
-- -c,-config <path>
+- -c,--config <path>
 ##### 用户对webpack进行重定义的配置文件(ctbuildv.config.js)路径，默认是宿主工程中的ctbuildv.config.js文件
 
 - -p,--packagename <name>
@@ -55,6 +56,18 @@ ctbuildv startapp --define skin=a,skin2=b
 
 - -d --define <path>
 ##### 自定义的其他参数使用，分割
+
+
+### buildpackage
+编译npm package
+- -c,--config <path>
+##### 配置文件默认是ctbuildv.package.config.js
+
+- -p,-srcpath <path>
+##### 构建目录
+
+- -d,--output <name>
+##### 输出路径
 
 ```javascript
 // 如果不传-p则编译脚本运行路径下的src目录
