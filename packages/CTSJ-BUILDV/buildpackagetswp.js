@@ -1,5 +1,5 @@
-const path = require('path');
 const { spawn } = require('child_process');
+const path = require('path');
 const { getEnv, isWin32 } = require('./util');
 
 // 运行脚本的路径
@@ -8,7 +8,6 @@ const runtimePath = process.cwd();
 // 脚本所在的路径
 const codePath = __dirname;
 
-// 命令所在目录
 const commandPath = path.join(codePath, 'node_modules', '.bin', path.sep);
 
 // buildpackage生成的目录名称
@@ -17,14 +16,18 @@ const generateDirName = 'lib';
 // buildpackage原始名称
 const srcDirName = 'src';
 
+// 代码输出路径
+const outputPath = path.join(runtimePath, generateDirName);
+
 // 代码编译路径
 let compilePath;
 
-// 代码输出路径
-let outputPath;
-
-// 配置文件路径
+// 配置文件所在路径
 let configPath;
+
+let packageName;
+
+let define;
 
 let index = 0;
 
@@ -32,8 +35,8 @@ let index = 0;
 const tasks = [
   // 清除生成目录
   clearTask,
-  // babel转换，转换js
-  compileTask,
+  // 使用vue-loader进行处理
+  webpackTask,
   // 样式
   gulpTask,
 ];
@@ -69,24 +72,29 @@ function clearTask() {
 }
 
 /**
- * runBuild
- * @description - runBuild
- * @return {Promise<Void>}
+ * webpackTask
+ * @return {Promise}
  */
-function compileTask() {
+function webpackTask() {
   return new Promise((resolve) => {
-    const command = isWin32() ? `cross-env.cmd` : `cross-env`;
+    const command = isWin32() ? `webpack.cmd` : `webpack`;
 
-    const handler = spawn(
+    const babelProcess = spawn(
       command,
       [
-        'cross-env',
-        `compilePath=${compilePath}`,
-        `outputPath=${outputPath}`,
-        `configPath=${configPath}`,
-        'gulp',
-        '-f',
-        path.join(__dirname, 'gulp-buildpackagets-file.js'),
+        '--open',
+        '--config',
+        path.join('webpackconfig', 'webpack.packagets.js'),
+        '--progress',
+        '--colors',
+        '--runtimepath',
+        path.join(runtimePath, path.sep),
+        '--packagename',
+        packageName,
+        '--customconfig',
+        configPath,
+        '--define',
+        define.join(' '),
       ],
       {
         cwd: codePath,
@@ -95,16 +103,16 @@ function compileTask() {
       },
     );
 
-    handler.stdout.on('data', (data) => {
+    babelProcess.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
     });
 
-    handler.stderr.on('data', (data) => {
+    babelProcess.stderr.on('data', (data) => {
       console.log(`stderr: ${data}`);
     });
 
-    handler.on('close', (code) => {
-      console.log(`handlerClose：${code}`);
+    babelProcess.on('close', (code) => {
+      console.log(`webpackTaskClose：${code}`);
       resolve();
     });
   });
@@ -159,7 +167,6 @@ function loopTask() {
     if (index >= tasks.length) {
       resolve();
     } else {
-      // eslint-disable-next-line no-plusplus
       const task = tasks[index++];
       if (task) {
         task()
@@ -181,58 +188,37 @@ function loopTask() {
 module.exports = {
   /**
    * build
+   * @param srcPath
    */
-  build({ config, src, output }) {
-    // 指定了编译目录
-    if (src) {
-      // 是绝对路径
-      if (path.isAbsolute(src)) {
-        compilePath = src;
+  build({ srcpath = '',config: ctbuildvConfigPath = '', packagename = 'index', define: defineMap }) {
+    if (ctbuildvConfigPath) {
+      if (path.isAbsolute(ctbuildvConfigPath)) {
+        configPath = ctbuildvConfigPath;
+      } else {
+        configPath = path.join(runtimePath, ctbuildvConfigPath);
       }
-      // 是相对路径(程序运行目录/srcPath)
-      else {
-        compilePath = path.join(runtimePath, src);
-      }
+    } else {
+      configPath = path.join(runtimePath, 'ctbuildv.config.js');
     }
-    // 没有指定编译目录
-    else {
-      // (程序运行目录/src)
+
+    if (srcpath) {
+      // 指定了编译目录
+      if (path.isAbsolute(srcpath)) {
+        // 是绝对路径
+        compilePath = srcpath;
+      } else {
+        // 是相对路径
+        compilePath = path.join(runtimePath, srcpath);
+      }
+    } else {
+      // 没有指定编译目录
       compilePath = path.join(runtimePath, srcDirName);
     }
+    // console.log('buildpackage-srcPath----------------------', srcPath);
 
-    // 指定了输出目录
-    if (output) {
-      // 是绝对路径
-      if (path.isAbsolute(output)) {
-        outputPath = output;
-      }
-      // 是相对路径(程序运行目录/srcPath)
-      else {
-        outputPath = path.join(runtimePath, output);
-      }
-    }
-    // 没有指定输出目录
-    else {
-      // (程序运行目录/src)
-      outputPath = path.join(runtimePath, generateDirName);
-    }
+    packageName = packagename;
 
-    // 指定了配置文件目录
-    if (config) {
-      // 是绝对路径
-      if (path.isAbsolute(config)) {
-        configPath = config;
-      }
-      // 是相对路径(程序运行目录/srcPath)
-      else {
-        configPath = path.join(runtimePath, config);
-      }
-    }
-    // 没有指定配置文件目录
-    else {
-      // (程序运行目录/ctbuildv.package.ts.config.js)
-      configPath = path.join(runtimePath, 'ctbuildv.package.ts.config.js');
-    }
+    define = defineMap;
 
     loopTask()
       .then(() => {
