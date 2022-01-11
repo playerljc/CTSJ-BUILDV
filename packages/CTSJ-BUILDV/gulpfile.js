@@ -29,16 +29,19 @@ const compilePath = argsMap.get('--compilepath')[0];
 /**
  * copy
  */
-gulp.task('copy', () => {
+gulp.task('copy', (cb) => {
   for (let i = 0; i < copyexts.length; i++) {
     gulp.src(path.join(compilePath, '**', `*.${copyexts[i]}`)).pipe(gulp.dest(outputpath));
   }
+
+  cb();
 });
 
 /**
  * 压缩
  */
 gulp.task('minjs', () => {
+  console.log('minjsoutputpath',outputpath)
   return gulp
     .src([
       // `${runtimePath}lib\\**\\*.js`,
@@ -52,4 +55,4 @@ gulp.task('minjs', () => {
     .pipe(gulp.dest(outputpath));
 });
 
-gulp.task('default', ['copy', 'minjs']);
+gulp.task('default', gulp.series('copy', 'minjs'));
