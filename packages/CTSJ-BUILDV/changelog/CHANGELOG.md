@@ -1,3 +1,11 @@
+# 2.0.6
+
+***
+
+2022-01-11
+
+* buildpackagets分成两个命令buildpackagets和buildpackagetswp
+
 # 2.0.5
 
 ***
