@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/component.jsx"],"names":["name","render","h"],"mappings":"AAAA,cAAe,CACbA,IAAI,CAAE,cADO,CAEbC,MAFa,iBAENC,CAFM,CAEH,CACR,2DACD,CAJY,CAAf","sourcesContent":["export default {\r\n  name: 'my-component',\r\n  render(h) {\r\n    return <div>我是JSX写的组件</div>\r\n  }\r\n}\r\n"],"file":"component.js"}
