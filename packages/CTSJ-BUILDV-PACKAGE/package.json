@@ -14,7 +14,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buildpackage": "ctbuildv buildpackagets",
+    "buildpackagetswp": "ctbuildv buildpackagetswp --packagename index --define alias=@,evnVars=true",
+    "buildpackagets": "ctbuildv buildpackagets",
+    "buildpackage": "ctbuildv buildpackage",
     "buildumd": "ctbuildv buildumd --config ctbuildv.config.umd.js --packagename Package --define alias=@,evnVars=true",
     "generatorchangelog": "bd changelog/CHANGELOG.html",
     "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",

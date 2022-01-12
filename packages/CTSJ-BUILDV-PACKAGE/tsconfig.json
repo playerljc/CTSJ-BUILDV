@@ -4,7 +4,8 @@
     "experimentalDecorators": true,
     "declarationDir": "./lib",
     "outDir": "./lib",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "module": "esnext"
   },
   "exclude": [
     "node_modules"
