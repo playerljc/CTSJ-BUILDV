@@ -114,7 +114,6 @@ module.exports = {
                       useBuiltIns: 'entry',
                     },
                   ],
-                  '@babel/preset-react',
                   '@vue/babel-preset-jsx',
                 ],
                 plugins: [
