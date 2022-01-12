@@ -32,7 +32,6 @@ const babelConfig = {
       //   useBuiltIns: 'entry',
       // },
     ],
-    '@babel/preset-react',
     '@vue/babel-preset-jsx',
   ],
   plugins: [

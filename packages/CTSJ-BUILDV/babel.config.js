@@ -6,7 +6,6 @@ const presets = [
       corejs: { version: 3, proposals: true },
     },
   ],
-  '@babel/preset-react',
   '@vue/babel-preset-jsx',
 ];
 
