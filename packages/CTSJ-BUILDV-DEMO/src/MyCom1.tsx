@@ -1,9 +1,11 @@
+import { defineComponent } from 'vue';
+
 import MyCom2 from './MyCom2';
 
 // @ts-ignore
 import styles from './MyCom1.less';
 
-export default {
+export default defineComponent({
   props: {
     name: {
       type: String,
@@ -56,19 +58,21 @@ export default {
           }
         </p>
         {/*@ts-ignore*/}
-        <p>{this.$slots.default}</p>
+        <p>{this.$slots.default()}</p>
         {/*@ts-ignore*/}
-        <p>{this.$slots.name1}</p>
+        <p>{this.$slots.name1()}</p>
+
         <p>
           {/*@ts-ignore*/}
-          {this.$scopedSlots.name2({
+          {this.$slots.name2({
             // @ts-ignore*
             name: this.name,
           })}
         </p>
+
         {/*@ts-ignore*/}
         <MyCom2 />
       </div>
     );
   },
-};
+});

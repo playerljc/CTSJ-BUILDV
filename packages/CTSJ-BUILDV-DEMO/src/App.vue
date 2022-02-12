@@ -13,13 +13,12 @@
         <div>我是slot=name1的slot</div>
       </template>
       <template v-slot:name2="slotProps">
-<!--        <div>{{ slotProps.name }}</div>-->
-        <My3 ref="my3Ref"/>
+        <div>{{ slotProps.name }}</div>
+        <My3 ref="my3Ref" />
       </template>
     </my-jsx>
 
     <MyCom2 />
-
   </div>
 </template>
 
@@ -61,7 +60,7 @@ export default {
     };
   },
   mounted() {
-    console.log('1111111111111111111',this.$refs.my3Ref);
+    console.log('1111111111111111111', this.$refs.my3Ref);
   },
   components: {
     'my-jsx': MyJSX,

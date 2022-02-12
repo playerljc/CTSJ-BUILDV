@@ -1,44 +1,29 @@
-// import Vue from 'vue';
+// @ts-ignore
+import { defineComponent, createElementVNode, PropType } from 'vue';
+import { Button } from 'ant-design-vue';
 
-export default {
-  // component: Vue.extend({
-  //   methods: {
-  //     renderInner: function () {
-  //       // @ts-ignore
-  //       return <div>我是JSX写的组件666</div>;
-  //     },
-  //   },
-  //   render: function (h) {
-  //     // @ts-ignore
-  //     return this.renderInner(h);
-  //   },
-  // }),
+interface IDataItem {
+  key: string;
+  name: string;
+  age: null;
+  address: string;
+  tags: string[];
+}
+
+export default defineComponent({
   name: 'my-component',
-  methods: {
-    // @ts-ignore
-    renderInner(h) {
-      // @ts-ignore
-      return <div>我是JSX写的组件666</div>;
+  props: {
+    data: {
+      type: Array as PropType<IDataItem[]>,
+      default: () => [],
     },
   },
-  render(h) {
-    // @ts-ignore
-    return this.renderInner(h);
+  render() {
+    return (
+      <div class="my-component">
+        <p>我是JSX写的组件666</p>
+        <Button>Button</Button>
+      </div>
+    );
   },
-};
-
-// Object.assign(
-//   Vue.extend({
-//     methods: {
-//       renderInner: function (h) {
-//         // @ts-ignore
-//         return <div>我是JSX写的组件666</div>;
-//       },
-//     },
-//     render: function (h) {
-//       // @ts-ignore
-//       return this.renderInner(h);
-//     },
-//   }),
-//   { name: 'my-component' },
-// );
+});

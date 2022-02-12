@@ -1,5 +1,5 @@
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'plugin:vue/essential'],
+  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'plugin:vue/vue3-essential'],
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,

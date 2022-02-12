@@ -7,7 +7,7 @@ import Com from './component';
 
 // @ts-ignore
 Com.install = function (Vue) {
-  Vue.component(Com.name, Com);
+  Vue.component('my-component', Com);
 };
 
 export default Com;

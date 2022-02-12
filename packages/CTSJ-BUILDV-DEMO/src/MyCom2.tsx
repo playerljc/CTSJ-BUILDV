@@ -1,6 +1,8 @@
+import { defineComponent } from 'vue';
+
 import My1 from './My1';
 
-export default {
+export default defineComponent({
   render() {
     return (
       <div>
@@ -10,4 +12,4 @@ export default {
       </div>
     );
   },
-};
+});

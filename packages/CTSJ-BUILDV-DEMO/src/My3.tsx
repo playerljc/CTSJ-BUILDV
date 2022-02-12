@@ -1,4 +1,6 @@
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: ['name'],
   render() {
     return (
@@ -8,4 +10,4 @@ export default {
       </div>
     );
   },
-};
+});
