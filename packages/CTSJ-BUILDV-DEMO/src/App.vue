@@ -19,6 +19,8 @@
     </my-jsx>
 
     <MyCom2 />
+
+    <a-com />
   </div>
 </template>
 
@@ -26,6 +28,7 @@
 import MyJSX from './MyCom1';
 import MyCom2 from './MyCom2';
 import My3 from './My3';
+import AVue from './a.vue';
 
 export default {
   data() {
@@ -66,6 +69,7 @@ export default {
     'my-jsx': MyJSX,
     MyCom2: MyCom2,
     My3: My3,
+    'a-com': AVue
   },
 };
 </script>
