@@ -5,6 +5,7 @@
   "description": "CTSJ-BUILDV的主工程",
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "bootstrap:next": "lerna bootstrap --dist-tag next",
     "clean": "lerna clean",
     "link": "lerna link",
     "update": "lerna run update",
