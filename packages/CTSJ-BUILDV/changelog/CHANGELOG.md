@@ -1,3 +1,11 @@
+# 5.0.1
+
+***
+
+2022-02-25
+
+* gulp-buildpackagets-file.js针对.d.ts的修改
+
 # 5.0.0
 
 ***
