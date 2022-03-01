@@ -6,22 +6,23 @@ import Package from '@ctsj/buildv-package';
 
 console.log('Package', Package);
 
-import App from './App.vue';
-import My1 from './My1';
+// import App from './App.vue';
+// import My1 from './My1';
+import Test from './Test';
 
 import 'ant-design-vue/dist/antd.css';
 import './index.less';
 
-console.log('App', App);
+// console.log('App', App);
 
 createApp({
   render() {
-    return h(App as any);
+    return h(Test as any);
   },
 })
   .use(Antd)
   .use(Package)
-  .component('my1', My1)
+  // .component('my1', My1)
   .mount('#app');
 
 // app.config.productionTip = false;
