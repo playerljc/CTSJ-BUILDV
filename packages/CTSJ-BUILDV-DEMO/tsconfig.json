@@ -2,6 +2,7 @@
   "extends": "./node_modules/@ctsj/buildv/appconfig-base.json",
   "compilerOptions": {
     "experimentalDecorators": true,
+    "noImplicitAny": false,
     "declarationDir": "./lib",
     "outDir": "./lib",
     "baseUrl": "./"
