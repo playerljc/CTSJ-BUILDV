@@ -24,9 +24,9 @@ const babelConfig = {
         corejs: { version: 3, proposals: true },
       },
     ],
-    '@vue/babel-preset-jsx',
   ],
   plugins: [
+    '@vue/babel-plugin-jsx',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-function-bind',

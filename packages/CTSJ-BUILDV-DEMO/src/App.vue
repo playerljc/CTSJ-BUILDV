@@ -13,13 +13,14 @@
         <div>我是slot=name1的slot</div>
       </template>
       <template v-slot:name2="slotProps">
-<!--        <div>{{ slotProps.name }}</div>-->
-        <My3 ref="my3Ref"/>
+        <div>{{ slotProps.name }}</div>
+        <My3 ref="my3Ref" />
       </template>
     </my-jsx>
 
     <MyCom2 />
 
+    <a-com />
   </div>
 </template>
 
@@ -27,6 +28,7 @@
 import MyJSX from './MyCom1';
 import MyCom2 from './MyCom2';
 import My3 from './My3';
+import AVue from './a.vue';
 
 export default {
   data() {
@@ -61,12 +63,13 @@ export default {
     };
   },
   mounted() {
-    console.log('1111111111111111111',this.$refs.my3Ref);
+    console.log('1111111111111111111', this.$refs.my3Ref);
   },
   components: {
     'my-jsx': MyJSX,
     MyCom2: MyCom2,
     My3: My3,
+    'a-com': AVue
   },
 };
 </script>

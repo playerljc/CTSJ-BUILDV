@@ -1,16 +1,17 @@
-export default {
-  render() {
-    // @ts-ignore
-    const { $slots } = this;
+import { defineComponent } from 'vue';
 
+export default defineComponent({
+  render() {
     return (
       <div>
         My2
-        {$slots.self}
-        {$slots.self1}
         {/* @ts-ignore*/}
-        {this.$scopedSlots.self2({ name: '111' })}
+        {this.$slots.self()}
+        {/* @ts-ignore*/}
+        {this.$slots.self1()}
+        {/* @ts-ignore*/}
+        {this.$slots.self2({ name: '111' })}
       </div>
     );
   },
-};
+});

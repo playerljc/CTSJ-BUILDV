@@ -1,5 +1,10 @@
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'plugin:vue/essential'],
+  extends: [
+      require.resolve('@umijs/fabric/dist/eslint'),
+    'plugin:vue/vue3-essential',
+    '@vue/standard',
+    '@vue/typescript/recommended'
+  ],
   globals: {
     page: true,
     APP_ENV: true,
