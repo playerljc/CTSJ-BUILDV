@@ -1,8 +1,22 @@
-declare const _default: {
+import { PropType } from 'vue';
+interface IDataItem {
+    key: string;
     name: string;
-    methods: {
-        renderInner(h: any): any;
+    age: null;
+    address: string;
+    tags: string[];
+}
+declare const _default: import("vue").DefineComponent<{
+    data: {
+        type: PropType<IDataItem[]>;
+        default: () => never[];
     };
-    render(h: any): any;
-};
+}, unknown, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, Record<string, any>, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    data: {
+        type: PropType<IDataItem[]>;
+        default: () => never[];
+    };
+}>>, {
+    data: IDataItem[];
+}>;
 export default _default;
