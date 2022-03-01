@@ -19,7 +19,7 @@ const plugins = [
   '@babel/plugin-proposal-optional-chaining',
   // "@vue/transform-vue-jsx",
   ['@babel/plugin-proposal-decorators', { legacy: true }],
-  ['@babel/plugin-proposal-class-properties', { loose: true }],
+  ['@babel/plugin-proposal-class-properties', { loose: false }],
   // "transform-vue-jsx",
   // [
   //   "import",

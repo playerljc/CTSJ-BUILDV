@@ -3,19 +3,20 @@
     "declaration": true,
     "noImplicitAny": false,
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "jsx": "preserve",
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "paths": {
-      "*": ["types/*"]
+      "*": ["src/*"]
     }
   }
 }

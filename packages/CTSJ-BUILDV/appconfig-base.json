@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["types/*"]
+      "@/*": ["src/*"]
     },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "strictNullChecks": false,
     "strict": true,
     "moduleResolution": "node",
@@ -13,10 +14,9 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "noImplicitAny": false,
-    "target": "es6",
-    "lib": ["dom", "es2017"],
+    "target": "esnext",
+    "module": "esnext",
     "skipLibCheck": true,
     "allowJs": true
-  },
-  "exclude": ["node_modules", "lib", "es", "antd-tools", "dist", "v2-doc"]
+  }
 }
