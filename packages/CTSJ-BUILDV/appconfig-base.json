@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "target": "es5",
-    "module": "commonjs",
+    "allowJs": true,
+    "target": "esnext",
+    "module": "esnext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -17,7 +17,5 @@
       "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
-  "exclude": ["node_modules"]
+  }
 }
