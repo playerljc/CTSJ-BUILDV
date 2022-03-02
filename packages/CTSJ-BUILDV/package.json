@@ -1,6 +1,6 @@
 {
   "name": "@ctsj/buildv",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "一个基于webpack的vue打包工具",
   "bin": {
     "ctbuildv": "./bin/build.js",
@@ -74,8 +74,10 @@
     "json-loader": "^0.5.7",
     "less": "^4.1.2",
     "less-loader": "^10.0.1",
+    "merge2": "^1.4.1",
     "mini-css-extract-plugin": "^2.4.1",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "postcss": "^8.4.7",
     "postcss-loader": "^6.1.1",
     "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
@@ -95,8 +97,6 @@
     "webpack-merge": "^5.8.0",
     "webpackbar": "^5.0.0-3",
     "xml-loader": "^1.2.1",
-    "yaml-loader": "^0.6.0",
-    "postcss": "^8.4.7",
-    "merge2": "^1.4.1"
+    "yaml-loader": "^0.6.0"
   }
 }
