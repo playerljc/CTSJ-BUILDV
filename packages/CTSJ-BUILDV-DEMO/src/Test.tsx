@@ -1,4 +1,4 @@
-import { CSSProperties, defineComponent, ref, VNode, watch, PropType } from 'vue';
+import { CSSProperties, defineComponent, ref, VNode, watch } from 'vue';
 import classNames from 'classnames';
 import { bool, object, oneOfType, string } from 'vue-types';
 

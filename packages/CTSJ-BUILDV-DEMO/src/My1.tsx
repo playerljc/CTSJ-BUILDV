@@ -1,14 +1,12 @@
 import { defineComponent } from 'vue';
 
 import My2 from './My2';
-// import My3 from './My3';
 import Fragment from './Fragment';
 
 import { /*Modal, */ Button } from 'ant-design-vue';
 
 export default defineComponent({
   methods: {
-    // @ts-ignore
     renderFooter() {
       return (
         <div>

@@ -27,50 +27,35 @@ export default defineComponent({
   },
   computed: {
     displayCount() {
-      // @ts-ignore
       return this.count;
     },
   },
   mounted() {
-    // @ts-ignore
     console.log(this.$slots);
   },
   render() {
     return (
       <div class={styles.Wrap}>
-        {/*@ts-ignore*/}
         <p>{this.name}</p>
-        {/*@ts-ignore*/}
         <p>{this.sex}</p>
-        {/*@ts-ignore*/}
         <p>{this.birthDay}</p>
-        {/*@ts-ignore*/}
         <p>{this.address}</p>
         <p
           onClick={() => {
-            // @ts-ignore
             this.count += 1;
           }}
         >
-          {
-            // @ts-ignore*
-            this.displayCount
-          }
+          {this.displayCount}
         </p>
-        {/*@ts-ignore*/}
         <p>{this.$slots.default()}</p>
-        {/*@ts-ignore*/}
         <p>{this.$slots.name1()}</p>
 
         <p>
-          {/*@ts-ignore*/}
           {this.$slots.name2({
-            // @ts-ignore*
             name: this.name,
           })}
         </p>
 
-        {/*@ts-ignore*/}
         <MyCom2 />
       </div>
     );

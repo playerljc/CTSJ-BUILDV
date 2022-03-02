@@ -1,5 +1,4 @@
-// @ts-ignore
-import { defineComponent, createElementVNode, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Button } from 'ant-design-vue';
 
 interface IDataItem {

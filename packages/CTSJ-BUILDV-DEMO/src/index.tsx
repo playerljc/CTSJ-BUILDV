@@ -1,28 +1,22 @@
-import { createApp, h } from 'vue';
+import { createApp } from 'vue';
 import Antd from 'ant-design-vue';
 
-// @ts-ignore
 import Package from '@ctsj/buildv-package';
 
-console.log('Package', Package);
-
-// import App from './App.vue';
-// import My1 from './My1';
-import Test from './Test';
+import App from './App.vue';
+import My1 from './My1';
+// import Test from './Test';
 
 import 'ant-design-vue/dist/antd.css';
 import './index.less';
 
 // console.log('App', App);
 
-createApp({
-  render() {
-    return h(Test as any);
-  },
-})
+createApp(App as any)
   .use(Antd)
+  // @ts-ignore
   .use(Package)
-  // .component('my1', My1)
+  .component('my1', My1)
   .mount('#app');
 
 // app.config.productionTip = false;

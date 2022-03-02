@@ -1,2 +1,11 @@
-import Com from"./component";Com.install=function(o){o.component("my-component",Com)};export default Com;
+// .vue
+// @ts-ignore
+// import Com from './index.vue';
+// jsx
+import Com from './component';
+// @ts-ignore
+Com.install = function (Vue) {
+    Vue.component('my-component', Com);
+};
+export default Com;
 //# sourceMappingURL=index.js.map
