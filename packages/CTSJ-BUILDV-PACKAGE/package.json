@@ -1,6 +1,6 @@
 {
   "name": "@ctsj/buildv-package",
-  "version": "5.0.1",
+  "version": "5.0.2-beta",
   "private": true,
   "description": "package",
   "main": "lib/index.js",
