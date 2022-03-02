@@ -1,10 +1,8 @@
-export default {
-  props:['name'],
-  render(h) {
-    return (
-      <div>
-        {this.name}
-      </div>
-    )
-  }
-}
+import Vue from 'vue';
+
+export default Vue.extend({
+  props: ['name'],
+  render() {
+    return <div>{this.name}</div>;
+  },
+});

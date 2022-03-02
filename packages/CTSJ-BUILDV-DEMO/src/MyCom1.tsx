@@ -1,9 +1,10 @@
+import Vue from 'vue';
 import MyCom2 from './MyCom2';
 
 // @ts-ignore
 import styles from './MyCom1.less';
 
-export default {
+export default Vue.extend({
   props: {
     name: {
       type: String,
@@ -25,18 +26,14 @@ export default {
   },
   computed: {
     displayCount() {
-      // @ts-ignore
       return this.count;
     },
   },
   mounted() {
-    // @ts-ignore
     console.log(this.$slots);
   },
   render(h) {
-    // @ts-ignore
     return (
-      // @ts-ignore
       <div class={styles.Wrap}>
         <p>{this.name}</p>
         <p>{this.sex}</p>
@@ -60,4 +57,4 @@ export default {
       </div>
     );
   },
-};
+});

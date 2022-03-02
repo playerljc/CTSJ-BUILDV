@@ -11,6 +11,7 @@ import './index.less';
 
 Vue.config.productionTip = false;
 Vue.use(Antd);
+// @ts-ignore
 Vue.use(Package);
 Vue.component('my1', My1);
 

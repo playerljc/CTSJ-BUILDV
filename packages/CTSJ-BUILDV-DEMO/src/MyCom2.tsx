@@ -1,13 +1,13 @@
+import Vue from 'vue';
 import My1 from './My1';
 
-export default {
-  render(h) {
+export default Vue.extend({
+  render() {
     return (
-      // @ts-ignore
       <div>
         我是MyCom2
         <My1 />
       </div>
-    )
-  }
-}
+    );
+  },
+});

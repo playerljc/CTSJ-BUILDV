@@ -1,5 +1,7 @@
-export default {
-  render(h) {
+import Vue from 'vue';
+
+export default Vue.extend({
+  render() {
     const { $slots } = this;
 
     return (
@@ -7,8 +9,8 @@ export default {
         My2
         {$slots.self}
         {$slots.self1}
-        {this.$scopedSlots.self2({name:'111'})}
+        {this.$scopedSlots.self2({ name: '111' })}
       </div>
     );
   },
-};
+});
