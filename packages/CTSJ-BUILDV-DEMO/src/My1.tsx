@@ -1,13 +1,13 @@
+import Vue from 'vue';
 import My2 from './My2';
 // import My3 from './My3';
 import Fragment from './Fragment';
 
 import { /*Modal, */ Button } from 'ant-design-vue';
 
-export default {
+export default Vue.extend({
   methods: {
-    // @ts-ignore
-    renderFooter(h) {
+    renderFooter() {
       return (
         <div>
           <Button>ok</Button>
@@ -40,7 +40,6 @@ export default {
     return (
       <div>
         <div>My1</div>
-        {/*@ts-ignore*/}
         <My2>
           {/* <My3 slot="self" /> */}
           {/*@ts-ignore*/}
@@ -49,7 +48,6 @@ export default {
           <div
             slot="self2"
             scopedSlots={{
-              // @ts-ignore
               default: (props) => <div>9019201020192019290</div>,
             }}
           />
@@ -81,4 +79,4 @@ export default {
       </div>
     );
   },
-};
+});

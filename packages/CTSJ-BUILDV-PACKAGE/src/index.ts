@@ -1,5 +1,4 @@
 // .vue
-// @ts-ignore
 // import Com from './index.vue';
 
 // jsx
