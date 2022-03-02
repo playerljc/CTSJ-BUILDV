@@ -4,6 +4,8 @@
     "target": "es5",
     "module": "commonjs",
     "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
