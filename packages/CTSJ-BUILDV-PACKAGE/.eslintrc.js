@@ -1,20 +1,19 @@
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'plugin:vue/essential'],
-  globals: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
-    page: true,
-    APP_ENV: true,
-    NO_MOCK: true,
-    Constent: true,
-    CustomEvnVars: true,
-    EmitterExternal: true,
+  root: true,
+  env: {
+    node: true,
+  },
+  extends: [
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "@vue/typescript/recommended",
+    "plugin:prettier/recommended",
+  ],
+  parserOptions: {
+    ecmaVersion: 2020,
   },
   rules: {
-    'class-methods-use-this': 0,
-    'import/no-extraneous-dependencies': 0,
-    'import/no-unresolved': 0,
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
-    'no-unused-expressions': 0,
-    'react/no-children-prop': 0,
+    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
   },
 };

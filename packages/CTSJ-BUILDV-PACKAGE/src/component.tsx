@@ -37,7 +37,7 @@
 export default {
   methods: {
     renderInner: function (h) {
-      return <div>我是JSX写的组件666</div>;
+      return <div class="abc">我是JSX写的组件666</div>;
     },
   },
   render: function (h) {
