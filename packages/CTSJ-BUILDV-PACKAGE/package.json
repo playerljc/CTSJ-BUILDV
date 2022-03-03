@@ -72,7 +72,9 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "stylelint": "^13.8.0",
-    "typescript": "3.8.2"
+    "typescript": "3.8.2",
+    "@umijs/fabric": "^2.10.2",
+    "core-js": "^3.21.1"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.5",
