@@ -30,7 +30,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@umijs/fabric": "^2.0.8",
+    "@umijs/fabric": "^2.10.2",
     "eslint": "^7.4.0",
     "prettier": "^2.0.5"
   },
