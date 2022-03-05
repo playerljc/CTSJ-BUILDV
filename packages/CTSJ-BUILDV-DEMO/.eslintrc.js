@@ -1,19 +1,14 @@
 module.exports = {
-  extends: [
-      require.resolve('@umijs/fabric/dist/eslint'),
-    'plugin:vue/vue3-essential',
-    '@vue/standard',
-    '@vue/typescript/recommended'
-  ],
-  globals: {
-    page: true,
-    APP_ENV: true,
-    NO_MOCK: true,
+  root: true,
+  env: {
+    node: true,
+  },
+  extends: ['plugin:vue/vue3-essential', '@vue/standard', '@vue/typescript/recommended'],
+  parserOptions: {
+    ecmaVersion: 2020,
   },
   rules: {
-    'import/no-unresolved': 0,
-    'no-unused-expressions': 0,
-    'import/no-extraneous-dependencies': 0,
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };
