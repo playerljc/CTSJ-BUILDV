@@ -10,6 +10,6 @@ module.exports = function ({ webpackConfig, val }) {
   }
 
   if (!val || val === 'true') {
-    webpackConfig.resolve.alias['vue$'] = 'vue/dist/vue.esm.js';
+    webpackConfig.resolve.alias['vue$'] = 'vue/dist/vue.esm-bundler.js';
   }
 };

@@ -1,3 +1,12 @@
+# 5.0.2
+
+***
+
+2022-03-06
+
+* eslint修改
+* projectRuntimeCompiler.js修改
+
 # 5.0.1
 
 ***
