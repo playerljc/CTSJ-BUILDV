@@ -68,14 +68,14 @@ module.exports = function ({ webpackConfig, runtimePath }) {
 
     const excludes = [VueLoaderPlugin,MiniCssExtractPlugin];
 
-    const ExcluePlugins = webpackConfig.plugins.filter(p => excludes.some(e => p instanceof e));
+    const ExcludePlugins = webpackConfig.plugins.filter(p => excludes.some(e => p instanceof e));
 
     webpackConfig.plugins = webpackConfig.plugins.filter(p => !excludes.some(e => p instanceof e));
 
     const smp = new SpeedMeasurePlugin();
 
     webpackConfig = smp.wrap(webpackConfig);
-    webpackConfig.plugins.push(...ExcluePlugins);
+    webpackConfig.plugins.push(...ExcludePlugins);
   }
 
   return webpackConfig;
