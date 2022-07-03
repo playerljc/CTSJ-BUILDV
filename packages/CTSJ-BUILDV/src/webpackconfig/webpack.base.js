@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const common = require('./webpack.common.js');
 const commandArgs = require('../commandArgs');
@@ -60,9 +62,21 @@ module.exports = function ({ webpackConfig, runtimePath }) {
 
   // 是否进行打包分析
   if (defineArgs.get('analysis')) {
+    // const smp = new SpeedMeasurePlugin();
+
+    // webpackConfig = smp.wrap(webpackConfig);
+
+    // mini-css-extract-plugin,VueLoaderPlugin和speed-measure-webpack-plugin冲突的hacky
+    const excludes = [VueLoaderPlugin,MiniCssExtractPlugin];
+
+    const ExcludePlugins = webpackConfig.plugins.filter(p => excludes.some(e => p instanceof e));
+
+    webpackConfig.plugins = webpackConfig.plugins.filter(p => !excludes.some(e => p instanceof e));
+
     const smp = new SpeedMeasurePlugin();
 
     webpackConfig = smp.wrap(webpackConfig);
+    webpackConfig.plugins.push(...ExcludePlugins);
   }
 
   return webpackConfig;
