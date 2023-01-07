@@ -1,6 +1,6 @@
 {
   "name": "@ctsj/buildv-package",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "private": true,
   "description": "package",
   "main": "lib/index.js",
@@ -61,7 +61,9 @@
     "@babel/runtime": "^7.7.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "@umijs/fabric": "^2.10.2",
     "babel-plugin-import": "^1.13.3",
+    "core-js": "^3.21.1",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -72,9 +74,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "stylelint": "^13.8.0",
-    "typescript": "3.8.2",
-    "@umijs/fabric": "^2.10.2",
-    "core-js": "^3.21.1"
+    "typescript": "3.8.2"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.5",
